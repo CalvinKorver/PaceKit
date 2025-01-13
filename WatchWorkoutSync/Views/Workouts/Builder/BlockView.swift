@@ -1,17 +1,11 @@
-//
-//  BlockEditView.swift
-//  Landmarks
-//
-//  Created by Calvin Korver on 1/4/25.
-//  Copyright © 2025 Apple. All rights reserved.
-//
 import SwiftUI
+import WorkoutKit
 
 struct BlockView: View {
     let viewModel: BlockViewModel
     
-    init(block: Block) {
-        self.viewModel = BlockViewModel(block: block)
+    init(block: Block, workout: Workout) {
+        self.viewModel = BlockViewModel(block: block, workout: workout)
     }
     
     var body: some View {
@@ -21,6 +15,7 @@ struct BlockView: View {
             
             if let distanceText = viewModel.distanceText {
                 Text(distanceText)
+                    .font(.subheadline)
             }
             
             if let durationText = viewModel.durationText {
@@ -28,7 +23,7 @@ struct BlockView: View {
                     .font(.subheadline)
             }
             
-            if let paceText = viewModel.paceText {
+            if let paceText = viewModel.paceConstraintText {
                 Text(paceText)
                     .font(.subheadline)
             }
@@ -46,6 +41,19 @@ struct BlockView: View {
 }
 
 #Preview {
-    ContentView()
-        .environment(ModelData())
+    // Create a sample workout and block for preview
+    let block = Block(id: 1,
+                      name: "Sample Block",
+                      duration: Duration(seconds: 600)
+    )
+    let workout = Workout(
+        id: 1,
+        name: "Sample Workout",
+        type: "simple",
+        blocks: [block],
+        isFavorite: false,
+        imageName: "runner"
+    )
+    
+    BlockView(block: block, workout: workout)
 }

@@ -1,41 +1,24 @@
-//
-//  BlockEditViewModel.swift
-//  Landmarks
-//
-//  Created by Calvin Korver on 1/8/25.
-//  Copyright © 2025 Apple. All rights reserved.
-//
 import SwiftUI
 
-// BlockEditViewModel.swift
 class BlockEditViewModel: ObservableObject {
-    @Published var blockState: BlockEditState
+    @Published var blockState: BlockEditState {
+        didSet {
+            objectWillChange.send()
+            print("BlockState updated in ViewModel")
+        }
+    }
     @Published var selectedMetric: MetricType = .time
     @Published var showPaceConstraint = false
     @Published var distanceString = ""
     @Published var durationString = ""
     @Published var selectedDistanceUnit = DistanceUnit.miles
-    @Published var lowTotalSeconds: Int = 300  // 5:00
+    @Published var paceTotalSeconds: Int = 300  // 5:00
     @Published var highTotalSeconds: Int = 360 // 6:00
-    
-    // Helper to format seconds to MM:SS string
-    func formatSecondsToMMSS(_ totalSeconds: Int) -> String {
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
-    func updatePaceConstraint() {
-        blockState.block.paceConstraint = PaceConstraint(
-            id: blockState.block.id,
-            paceLow: lowTotalSeconds,
-            paceHigh: highTotalSeconds
-        )
-    }
     
     enum MetricType: String, CaseIterable {
         case distance = "Distance"
         case time = "Time"
+        case pace = "Pace"
     }
     
     init(blockState: BlockEditState) {
@@ -44,62 +27,117 @@ class BlockEditViewModel: ObservableObject {
     }
     
     func initializeFields() {
+        // Initialize from Distance type
         if let distance = blockState.block.distance {
-            distanceString = String(distance)
-        }
-        if let duration = blockState.block.durationSeconds {
-            durationString = formatSecondsToMinutesSeconds(duration)
-        }
-        if let unit = blockState.block.distanceUnit {
-            selectedDistanceUnit = unit
+            distanceString = String(distance.value)
+            selectedDistanceUnit = distance.unit
             selectedMetric = .distance
+            print("Initialized with distance: \(distance.value) \(distance.unit)")
         }
-    }
-    
-    
-    private func secondsToDate(_ seconds: Int) -> Date {
-        let calendar = Calendar.current
-        let midnight = calendar.startOfDay(for: Date())
-        return calendar.date(byAdding: .second, value: seconds, to: midnight) ?? midnight
-    }
-    
-    private func dateToSeconds(_ date: Date) -> Int {
-        let calendar = Calendar.current
-        let midnight = calendar.startOfDay(for: date)
-        let components = calendar.dateComponents([.minute, .second], from: midnight, to: date)
-        return (components.minute ?? 0) * 60 + (components.second ?? 0)
+        
+        // Initialize from Duration type
+        if let duration = blockState.block.duration {
+            durationString = formatSecondsToMinutesSeconds(Int(duration.seconds))
+            selectedMetric = .time
+            print("Initialized with duration: \(duration.seconds) seconds")
+        }
+        
+        // Initialize pace constraint
+        if let paceConstraint = blockState.block.paceConstraint {
+            showPaceConstraint = true
+            paceTotalSeconds = paceConstraint.pace
+            highTotalSeconds = paceConstraint.paceHigh
+            print("Initialized with pace constraint: \(paceConstraint.paceLow)-\(paceConstraint.paceHigh)")
+        }
     }
     
     var blockName: String {
-        get { blockState.block.name }
-        set { blockState.block.name = newValue }
+        get {
+            blockState.block.name
+        }
+        set {
+            print("BlockEditViewModel - Setting block name to: \(newValue)")
+            var updatedBlock = blockState.block
+            updatedBlock.name = newValue
+            blockState.block = updatedBlock
+            objectWillChange.send()
+        }
     }
     
     func clearOtherMetric(_ newType: MetricType) {
+        print("Clearing metric for type: \(newType)")
+        var updatedBlock = blockState.block
         if newType == .distance {
-            blockState.block.durationSeconds = nil
+            updatedBlock.duration = nil
             durationString = ""
+            print("Cleared duration")
+        } else if newType == .pace {
+            updatedBlock.duration = nil
+            updatedBlock.distance = nil
+            print("Cleared duration and distance")
         } else {
-            blockState.block.distance = nil
-            blockState.block.distanceUnit = nil
+            updatedBlock.distance = nil
             distanceString = ""
+            print("Cleared distance")
         }
+        blockState.block = updatedBlock
+        objectWillChange.send()
     }
     
     func updateDistance() {
-        if let distance = Float(distanceString) {
-            blockState.block.distance = distance
-            blockState.block.distanceUnit = selectedDistanceUnit
+        print("Updating distance: \(distanceString) \(selectedDistanceUnit)")
+        var updatedBlock = blockState.block
+        if let distanceValue = Double(distanceString) {
+            updatedBlock.distance = Distance(
+                value: distanceValue,
+                unit: selectedDistanceUnit
+            )
+            print("Set distance to: \(distanceValue) \(selectedDistanceUnit)")
         } else {
-            blockState.block.distance = nil
-            blockState.block.distanceUnit = nil
+            updatedBlock.distance = nil
+            print("Cleared distance")
         }
+        blockState.block = updatedBlock
+        objectWillChange.send()
     }
     
     func updateDuration() {
-        blockState.block.durationSeconds = Int(durationString)
+        print("Updating duration: \(durationString)")
+        var updatedBlock = blockState.block
+        if let seconds = parseMinutesSeconds(durationString) {
+            updatedBlock.duration = Duration(seconds: Double(seconds))
+            print("Set duration to: \(seconds) seconds")
+        } else {
+            updatedBlock.duration = nil
+            print("Cleared duration")
+        }
+        blockState.block = updatedBlock
+        objectWillChange.send()
     }
     
+    func updatePaceConstraint() {
+        print("Updating pace constraint - show: \(showPaceConstraint)")
+        var updatedBlock = blockState.block
+        if showPaceConstraint {
+            updatedBlock.paceConstraint = PaceConstraint(
+                id: blockState.block.id,
+                pace: paceTotalSeconds
+            )
+            print("Set pace constraint: \(paceTotalSeconds)")
+        } else {
+            updatedBlock.paceConstraint = nil
+            print("Cleared pace constraint")
+        }
+        blockState.block = updatedBlock
+        objectWillChange.send()
+    }
+    
+    // Helper functions for time formatting
+    func formatSecondsToMMSS(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
     
     private func formatSecondsToMinutesSeconds(_ seconds: Int) -> String {
         let minutes = seconds / 60

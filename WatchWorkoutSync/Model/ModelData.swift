@@ -7,6 +7,7 @@ Storage for model data.
 
 
 import Foundation
+import SwiftUI
 
 @Observable
 class ModelData {

@@ -7,18 +7,19 @@
 
 import Foundation
 import SwiftUI
+import WorkoutKit
 
 struct Workout: Hashable, Codable, Identifiable {
     var id: Int
     var name: String
-    var type: String
-    var blocks: [Block]
+    var type: WorkoutType
+    var blocks: [Block]?
     var isFavorite: Bool
-    
+     
     init(id: Int, name: String, type: String, blocks: [Block], isFavorite: Bool, imageName: String) {
         self.id = id
         self.name = name
-        self.type = type
+        self.type = WorkoutType(rawValue: type)!
         self.blocks = blocks
         self.isFavorite = isFavorite
         self.imageName = imageName
@@ -29,3 +30,33 @@ struct Workout: Hashable, Codable, Identifiable {
         Image(imageName)
     }
 }
+
+enum WorkoutType: String, CaseIterable, Decodable, Encodable {
+    case simple = "simple"
+    case pacer = "pacer"
+}
+
+struct Distance: Hashable, Codable {
+    var value: Double
+    var unit: DistanceUnit
+}
+
+
+struct Block: Hashable, Codable, Identifiable {
+    var id: Int
+    var name: String
+    var distance: Distance?
+    var duration: Duration?
+    var paceConstraint: PaceConstraint?
+}
+
+struct PaceConstraint:Hashable, Codable, Identifiable {
+    var id: Int
+    var pace: Int // seconds
+//    var paceHigh: Int
+}
+
+struct Duration: Hashable, Codable {
+    var seconds: Double
+}
+

@@ -1,0 +1,69 @@
+[
+    {
+       "name": "My first workout",
+       "id": 100,
+       "type": "simple",
+       "imageName": "runner",
+       "isFavorite": true,
+       "blocks":
+       [
+           {
+               "id": 1001,
+               "name": "Warmup",
+               "distance": {
+                   "value": 2.0,
+                   "unit": "kilometers"
+               },
+               "duration": null,
+               "distanceUnit": null,
+               "paceConstraint": null
+           }
+       ]
+    },
+  
+    {
+       "name": "A Longer workout",
+       "id": 101,
+       "type": "simple",
+       "imageName": "runner",
+       "isFavorite": false,
+       "blocks":
+       [
+           {
+               "id": 1002,
+               "name": "Warmup",
+               "distance": {
+                   "value": 2.0,
+                   "unit": "kilometers"
+               },
+               "duration": null,
+               
+               "paceConstraint": null
+           },
+           {
+               "id": 1003,
+               "name": "Main Block",
+               "distance": {
+                   "value": 5.0,
+                   "unit": "kilometers"
+               },
+               "duration": null,
+               
+               "paceConstraint":
+               {
+                   "id": 10001,
+                   "paceLow": 420,
+                   "paceHigh": 480
+               }
+           },
+           {
+               "id": 1004,
+               "name": "Cooldown",
+               "duration": {
+                   "seconds": 600
+               },
+               "paceConstraint": null
+           }
+       ]
+    }
+]

@@ -12,6 +12,6 @@ enum MetricType: String, CaseIterable {
     case time = "Time"
 }
 
-enum DistanceUnit: String, Codable, CaseIterable {
+enum DistanceUnit: String, Hashable, Codable, CaseIterable {
     case miles, meters, kilometers
 }

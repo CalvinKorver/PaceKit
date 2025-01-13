@@ -1,12 +1,12 @@
 import SwiftUI
 
-
 struct CreateNewWorkoutView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.dismiss) var dismiss
     
     @State private var workoutName = ""
     @State private var blocks: [BlockEditState] = []
+    @State private var selectedWorkoutType: WorkoutType = .simple
     
     private var newWorkoutId: Int {
         (modelData.landmarks.map { $0.id }.max() ?? 0) + 1
@@ -21,9 +21,22 @@ struct CreateNewWorkoutView: View {
             Form {
                 Section(header: Text("Workout Details")) {
                     TextField("Workout Name", text: $workoutName)
+                    
+                    Picker("Workout Type", selection: $selectedWorkoutType) {
+                        ForEach(WorkoutType.allCases, id: \.self) { type in
+                            Text(type.rawValue.capitalized)
+                                .tag(type)
+                        }
+                    }
                 }
                 
                 Section(header: Text("Blocks")) {
+                    if blocks.isEmpty {
+                        Text("Add a block to get started")
+                            .foregroundColor(.secondary)
+                            .italic()
+                    }
+                    
                     ForEach($blocks) { $blockState in
                         BlockEditView(blockState: $blockState)
                     }
@@ -36,6 +49,16 @@ struct CreateNewWorkoutView: View {
                         }
                     }
                 }
+                
+                if !blocks.isEmpty {
+                    Section {
+                        if !areBlocksValid {
+                            Text("Please ensure all blocks have a name and either distance or duration set")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                    }
+                }
             }
             .navigationTitle("New Workout")
             .toolbar {
@@ -43,7 +66,7 @@ struct CreateNewWorkoutView: View {
                     Button("Save") {
                         saveWorkout()
                     }
-                    .disabled(workoutName.isEmpty || !blocks.allSatisfy { $0.isValid })
+//                    .disabled(!isWorkoutValid)
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
@@ -51,8 +74,49 @@ struct CreateNewWorkoutView: View {
                     }
                 }
             }
+            .onChange(of: selectedWorkoutType) { oldValue, newValue in
+                updateBlockStatesForWorkoutType(newValue)
+            }
         }
         .navigationBarBackButtonHidden()
+    }
+    
+    private var isWorkoutValid: Bool {
+        let nameValid = !workoutName.isEmpty
+        let hasBlocks = !blocks.isEmpty
+        
+        print("Workout Validation:")
+        print("- Name valid: \(nameValid) (name: '\(workoutName)')")
+        print("- Has blocks: \(hasBlocks) (count: \(blocks.count))")
+        print("- Blocks valid: \(areBlocksValid)")
+        
+        return nameValid && hasBlocks && areBlocksValid
+    }
+
+    private var areBlocksValid: Bool {
+        for (index, blockState) in blocks.enumerated() {
+            let nameValid = !blockState.block.name.isEmpty
+            let hasDistance = blockState.block.distance != nil
+            let hasDuration = blockState.block.duration != nil
+            
+            print("\nBlock \(index) Validation:")
+            print("- Name valid: \(nameValid) (name: '\(blockState.block.name)')")
+            print("- Has distance: \(hasDistance)")
+            print("- Has duration: \(hasDuration)")
+            
+            if !nameValid {
+                print("❌ Block \(index) invalid: missing name")
+                return false
+            }
+            
+            if !hasDistance && !hasDuration {
+                print("❌ Block \(index) invalid: needs either distance or duration")
+                return false
+            }
+        }
+        
+        print("\n✅ All blocks valid")
+        return true
     }
     
     private func addEmptyBlock() {
@@ -60,22 +124,35 @@ struct CreateNewWorkoutView: View {
             id: newBlockId,
             name: "",
             distance: nil,
-            durationSeconds: nil,
-            distanceUnit: nil,
+            duration: nil,
             paceConstraint: nil
         )
-        blocks.append(BlockEditState(block: newBlock))
+        
+        let blockState = BlockEditState(
+            block: newBlock,
+            workoutType: selectedWorkoutType
+        )
+        blocks.append(blockState)
     }
     
     private func deleteBlocks(at offsets: IndexSet) {
         blocks.remove(atOffsets: offsets)
     }
     
+    private func updateBlockStatesForWorkoutType(_ type: WorkoutType) {
+        // Update existing blocks with new workout type
+        blocks = blocks.map { blockState in
+            var updatedState = blockState
+            updatedState.workoutType = type
+            return updatedState
+        }
+    }
+    
     private func saveWorkout() {
         let newWorkout = Workout(
             id: newWorkoutId,
             name: workoutName,
-            type: "simple",
+            type: selectedWorkoutType.rawValue,
             blocks: blocks.map { $0.block },
             isFavorite: false,
             imageName: "runner"
@@ -86,22 +163,22 @@ struct CreateNewWorkoutView: View {
     }
 }
 
-struct BlockEditState: Identifiable {
-    var id: Int { block.id }
-    var block: Block
+// Extension to handle workout type validation rules
+extension BlockEditState {
     var isValid: Bool {
+        // Basic validation
         guard !block.name.isEmpty else { return false }
         
-        // Either distance with unit OR duration must be set
-        let hasDistance = block.distance != nil && block.distanceUnit != nil
-        let hasDuration = block.durationSeconds != nil && block.durationSeconds! > 0
-        
-        // If pace constraint exists, both high and low must be valid
-        let hasPaceConstraint = block.paceConstraint != nil
-        let validPaceConstraint = !hasPaceConstraint ||
-            (block.paceConstraint!.paceLow > 0 && block.paceConstraint!.paceHigh >= block.paceConstraint!.paceLow)
-        
-        return (hasDistance || hasDuration) && validPaceConstraint
+        // Validate based on workout type
+        switch workoutType {
+        case .simple:
+            // Simple workouts need either distance or duration
+            return block.distance != nil || block.duration != nil
+            
+        case .pacer:
+            // Pacer workouts need both distance and duration
+            return block.distance != nil && block.duration != nil
+        }
     }
 }
 

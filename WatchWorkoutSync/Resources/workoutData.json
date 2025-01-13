@@ -10,48 +10,12 @@
            {
                "id": 1001,
                "name": "Warmup",
-               "distance": null,
-               "durationSeconds": 600,
+               "distance": {
+                   "value": 2.0,
+                   "unit": "kilometers"
+               },
+               "duration": null,
                "distanceUnit": null,
-               "paceConstraint": null
-           }
-       ]
-    },
-    {
-       "name": "A Longer workout",
-       "id": 101,
-       "type": "simple",
-       "imageName": "runner",
-       "isFavorite": false,
-       "blocks":
-       [
-           {
-               "id": 1002,
-               "name": "Warmup",
-               "distance": 1,
-               "durationSeconds": null,
-               "distanceUnit": "kilometers",
-               "paceConstraint": null
-           },
-           {
-               "id": 1003,
-               "name": "Main Block",
-               "distance": 5,
-               "durationSeconds": null,
-               "distanceUnit": "kilometers",
-               "paceConstraint":
-               {
-                   "id": 10001,
-                   "paceLow": 420,
-                   "paceHigh": 480
-               }
-           },
-           {
-               "id": 1004,
-               "name": "Cooldown",
-               "distance": 1,
-               "durationSeconds": null,
-               "distanceUnit": "kilometers",
                "paceConstraint": null
            }
        ]
