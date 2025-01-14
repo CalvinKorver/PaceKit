@@ -81,20 +81,6 @@
 			);
 			target = E733E1692D33273B00196DB3 /* WatchWorkoutSync */;
 		};
-		E733E23F2D33632400196DB3 /* Exceptions for "WatchWorkoutSyncWatch Watch AppUITests" folder in "WatchWorkoutSyncWatch Watch AppUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"WatchWorkoutSyncWatch-Watch-AppUITests-Info.plist",
-			);
-			target = E733E21C2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */;
-		};
-		E733E2422D33644900196DB3 /* Exceptions for "WatchWorkoutSyncWatch Watch App" folder in "WatchWorkoutSyncWatch Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"WatchWorkoutSyncWatch-Watch-App-Info.plist",
-			);
-			target = E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -130,9 +116,6 @@
 		};
 		E733E2052D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				E733E2422D33644900196DB3 /* Exceptions for "WatchWorkoutSyncWatch Watch App" folder in "WatchWorkoutSyncWatch Watch App" target */,
-			);
 			path = "WatchWorkoutSyncWatch Watch App";
 			sourceTree = "<group>";
 		};
@@ -143,9 +126,6 @@
 		};
 		E733E2202D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				E733E23F2D33632400196DB3 /* Exceptions for "WatchWorkoutSyncWatch Watch AppUITests" folder in "WatchWorkoutSyncWatch Watch AppUITests" target */,
-			);
 			path = "WatchWorkoutSyncWatch Watch AppUITests";
 			sourceTree = "<group>";
 		};

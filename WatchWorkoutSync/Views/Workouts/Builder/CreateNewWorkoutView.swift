@@ -42,10 +42,12 @@ struct CreateNewWorkoutView: View {
                     }
                     .onDelete(perform: deleteBlocks)
                     
-                    Button(action: addEmptyBlock) {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add Block")
+                    if shouldShowAddBlockButton {
+                        Button(action: addEmptyBlock) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add Block")
+                            }
                         }
                     }
                 }
@@ -53,7 +55,7 @@ struct CreateNewWorkoutView: View {
                 if !blocks.isEmpty {
                     Section {
                         if !areBlocksValid {
-                            Text("Please ensure all blocks have a name and either distance or duration set")
+                            Text(validationMessage)
                                 .foregroundColor(.red)
                                 .font(.caption)
                         }
@@ -66,7 +68,7 @@ struct CreateNewWorkoutView: View {
                     Button("Save") {
                         saveWorkout()
                     }
-//                    .disabled(!isWorkoutValid)
+                    .disabled(!isWorkoutValid)
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
@@ -81,41 +83,50 @@ struct CreateNewWorkoutView: View {
         .navigationBarBackButtonHidden()
     }
     
-    private var isWorkoutValid: Bool {
-        let nameValid = !workoutName.isEmpty
-        let hasBlocks = !blocks.isEmpty
-        
-        print("Workout Validation:")
-        print("- Name valid: \(nameValid) (name: '\(workoutName)')")
-        print("- Has blocks: \(hasBlocks) (count: \(blocks.count))")
-        print("- Blocks valid: \(areBlocksValid)")
-        
-        return nameValid && hasBlocks && areBlocksValid
+    private var shouldShowAddBlockButton: Bool {
+        switch selectedWorkoutType {
+        case .simple:
+            return true
+        case .pacer:
+            return blocks.isEmpty
+        }
     }
-
+    
+    private var validationMessage: String {
+        switch selectedWorkoutType {
+        case .simple:
+            return "Please ensure all blocks have a name and either distance or duration set"
+        case .pacer:
+            return "Please ensure the block has a name, distance, and duration set"
+        }
+    }
+    
+    private var isWorkoutValid: Bool {
+        guard !workoutName.isEmpty && !blocks.isEmpty else { return false }
+        
+        switch selectedWorkoutType {
+        case .simple:
+            return areBlocksValid
+        case .pacer:
+            return blocks.count == 1 && areBlocksValid
+        }
+    }
+    
     private var areBlocksValid: Bool {
-        for (index, blockState) in blocks.enumerated() {
+        for blockState in blocks {
             let nameValid = !blockState.block.name.isEmpty
             let hasDistance = blockState.block.distance != nil
             let hasDuration = blockState.block.duration != nil
             
-            print("\nBlock \(index) Validation:")
-            print("- Name valid: \(nameValid) (name: '\(blockState.block.name)')")
-            print("- Has distance: \(hasDistance)")
-            print("- Has duration: \(hasDuration)")
+            if !nameValid { return false }
             
-            if !nameValid {
-                print("❌ Block \(index) invalid: missing name")
-                return false
-            }
-            
-            if !hasDistance && !hasDuration {
-                print("❌ Block \(index) invalid: needs either distance or duration")
-                return false
+            switch selectedWorkoutType {
+            case .simple:
+                if !hasDistance && !hasDuration { return false }
+            case .pacer:
+                if !hasDistance || !hasDuration { return false }
             }
         }
-        
-        print("\n✅ All blocks valid")
         return true
     }
     
@@ -140,11 +151,15 @@ struct CreateNewWorkoutView: View {
     }
     
     private func updateBlockStatesForWorkoutType(_ type: WorkoutType) {
-        // Update existing blocks with new workout type
         blocks = blocks.map { blockState in
             var updatedState = blockState
             updatedState.workoutType = type
             return updatedState
+        }
+        
+        // For pacer workouts, ensure only one block
+        if type == .pacer && blocks.count > 1 {
+            blocks = Array(blocks.prefix(1))
         }
     }
     

@@ -13,12 +13,13 @@ class BlockEditViewModel: ObservableObject {
     @Published var durationString = ""
     @Published var selectedDistanceUnit = DistanceUnit.miles
     @Published var paceTotalSeconds: Int = 300  // 5:00
-    @Published var highTotalSeconds: Int = 360 // 6:00
+    @Published var pacerModeSeconds: Int = 480 // 8:00 min/mile default
     
     enum MetricType: String, CaseIterable {
         case distance = "Distance"
         case time = "Time"
         case pace = "Pace"
+        case custom = "Custom"
     }
     
     init(blockState: BlockEditState) {
@@ -46,8 +47,7 @@ class BlockEditViewModel: ObservableObject {
         if let paceConstraint = blockState.block.paceConstraint {
             showPaceConstraint = true
             paceTotalSeconds = paceConstraint.pace
-            highTotalSeconds = paceConstraint.paceHigh
-            print("Initialized with pace constraint: \(paceConstraint.paceLow)-\(paceConstraint.paceHigh)")
+            print("Initialized with pace constraint: \(paceConstraint.pace)")
         }
     }
     
@@ -84,6 +84,7 @@ class BlockEditViewModel: ObservableObject {
         objectWillChange.send()
     }
     
+    // Modify updateDistance to handle pace calculations for pacer mode
     func updateDistance() {
         print("Updating distance: \(distanceString) \(selectedDistanceUnit)")
         var updatedBlock = blockState.block
@@ -92,6 +93,22 @@ class BlockEditViewModel: ObservableObject {
                 value: distanceValue,
                 unit: selectedDistanceUnit
             )
+            
+            // If in pacer mode, update duration based on pace
+            if blockState.workoutType == .pacer {
+                // Convert distance to miles for pace calculation
+                let distanceInMiles = switch selectedDistanceUnit {
+                    case .miles: distanceValue
+                    case .kilometers: distanceValue * 0.621371
+                    case .meters: distanceValue * 0.000621371
+                }
+                
+                // Calculate total duration based on pace
+                let totalSeconds = Int(distanceInMiles * Double(pacerModeSeconds))
+                updatedBlock.duration = Duration(seconds: Double(totalSeconds))
+                durationString = formatSecondsToMinutesSeconds(totalSeconds)
+            }
+            
             print("Set distance to: \(distanceValue) \(selectedDistanceUnit)")
         } else {
             updatedBlock.distance = nil
@@ -100,6 +117,27 @@ class BlockEditViewModel: ObservableObject {
         blockState.block = updatedBlock
         objectWillChange.send()
     }
+    
+    // Add method to update duration from pace
+    func updateDurationFromPace() {
+        guard let distance = blockState.block.distance else { return }
+        
+        // Convert distance to miles
+        let distanceInMiles = switch distance.unit {
+            case .miles: distance.value
+            case .kilometers: distance.value * 0.621371
+            case .meters: distance.value * 0.000621371
+        }
+        
+        // Calculate new duration
+        let totalSeconds = Int(distanceInMiles * Double(pacerModeSeconds))
+        var updatedBlock = blockState.block
+        updatedBlock.duration = Duration(seconds: Double(totalSeconds))
+        durationString = formatSecondsToMinutesSeconds(totalSeconds)
+        blockState.block = updatedBlock
+        objectWillChange.send()
+    }
+
     
     func updateDuration() {
         print("Updating duration: \(durationString)")
@@ -131,27 +169,5 @@ class BlockEditViewModel: ObservableObject {
         blockState.block = updatedBlock
         objectWillChange.send()
     }
-    
-    // Helper functions for time formatting
-    func formatSecondsToMMSS(_ totalSeconds: Int) -> String {
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
-    private func formatSecondsToMinutesSeconds(_ seconds: Int) -> String {
-        let minutes = seconds / 60
-        let remainingSeconds = seconds % 60
-        return String(format: "%d:%02d", minutes, remainingSeconds)
-    }
-    
-    private func parseMinutesSeconds(_ timeString: String) -> Int? {
-        let components = timeString.split(separator: ":")
-        if components.count == 2,
-           let minutes = Int(components[0]),
-           let seconds = Int(components[1]) {
-            return minutes * 60 + seconds
-        }
-        return nil
-    }
+
 }

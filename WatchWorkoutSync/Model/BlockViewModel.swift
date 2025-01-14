@@ -66,13 +66,12 @@ struct BlockViewModel {
     
     var paceConstraintText: String? {
         guard let pace = block.paceConstraint else { return nil }
-        return formatPace(low: pace.pace, high: pace.paceHigh)
+        return formatPace(pace: pace.pace)
     }
     
-    private func formatPace(low: Int, high: Int) -> String {
-        let lowFormatted = formatMinuteSeconds(seconds: low)
-        let highFormatted = formatMinuteSeconds(seconds: high)
-        return "\(lowFormatted) - \(highFormatted) min/mile"
+    private func formatPace(pace: Int) -> String {
+        let secondsFormatted = formatMinuteSeconds(seconds: pace)
+        return "\(secondsFormatted)  min/mile"
     }
     
     private func formatMinuteSeconds(seconds: Int) -> String {
