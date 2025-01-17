@@ -10,7 +10,7 @@ class BlockEditViewModel: ObservableObject {
     @Published var selectedMetric: MetricType = .time
     @Published var showPaceConstraint = false
     @Published var distanceString = ""
-    @Published var durationString = ""
+    @Published var durationSeconds: Int = 0
     @Published var selectedDistanceUnit = DistanceUnit.miles
     @Published var paceTotalSeconds: Int = 300  // 5:00
     @Published var pacerModeSeconds: Int = 480 // 8:00 min/mile default
@@ -38,16 +38,22 @@ class BlockEditViewModel: ObservableObject {
         
         // Initialize from Duration type
         if let duration = blockState.block.duration {
-            durationString = formatSecondsToMinutesSeconds(Int(duration.seconds))
+            durationSeconds = duration.seconds
             selectedMetric = .time
             print("Initialized with duration: \(duration.seconds) seconds")
         }
         
         // Initialize pace constraint
-        if let paceConstraint = blockState.block.paceConstraint {
+        if blockState.workoutType != .simple, let paceConstraint = blockState.block.paceConstraint {
             showPaceConstraint = true
             paceTotalSeconds = paceConstraint.pace
             print("Initialized with pace constraint: \(paceConstraint.pace)")
+        }
+        
+        if blockState.workoutType == .simple {
+            var updatedBlock = blockState.block
+            updatedBlock.name = "Main Block"
+            self.blockState.block = updatedBlock
         }
     }
     
@@ -69,7 +75,7 @@ class BlockEditViewModel: ObservableObject {
         var updatedBlock = blockState.block
         if newType == .distance {
             updatedBlock.duration = nil
-            durationString = ""
+            durationSeconds = 0
             print("Cleared duration")
         } else if newType == .pace {
             updatedBlock.duration = nil
@@ -105,8 +111,8 @@ class BlockEditViewModel: ObservableObject {
                 
                 // Calculate total duration based on pace
                 let totalSeconds = Int(distanceInMiles * Double(pacerModeSeconds))
-                updatedBlock.duration = Duration(seconds: Double(totalSeconds))
-                durationString = formatSecondsToMinutesSeconds(totalSeconds)
+                updatedBlock.duration = Duration(seconds: totalSeconds)
+                durationSeconds = totalSeconds
             }
             
             print("Set distance to: \(distanceValue) \(selectedDistanceUnit)")
@@ -132,18 +138,18 @@ class BlockEditViewModel: ObservableObject {
         // Calculate new duration
         let totalSeconds = Int(distanceInMiles * Double(pacerModeSeconds))
         var updatedBlock = blockState.block
-        updatedBlock.duration = Duration(seconds: Double(totalSeconds))
-        durationString = formatSecondsToMinutesSeconds(totalSeconds)
+        updatedBlock.duration = Duration(seconds: totalSeconds)
+        durationSeconds = totalSeconds
         blockState.block = updatedBlock
         objectWillChange.send()
     }
 
     
     func updateDuration() {
-        print("Updating duration: \(durationString)")
+        print("Updating duration: \(durationSeconds)")
         var updatedBlock = blockState.block
-        if let seconds = parseMinutesSeconds(durationString) {
-            updatedBlock.duration = Duration(seconds: Double(seconds))
+        if let seconds = (durationSeconds != 0) ? Double(durationSeconds) : nil {
+            updatedBlock.duration = Duration(seconds: Int(seconds))
             print("Set duration to: \(seconds) seconds")
         } else {
             updatedBlock.duration = nil
@@ -156,7 +162,9 @@ class BlockEditViewModel: ObservableObject {
     func updatePaceConstraint() {
         print("Updating pace constraint - show: \(showPaceConstraint)")
         var updatedBlock = blockState.block
-        if showPaceConstraint {
+        
+        // Only set pace constraint if not a simple workout
+        if showPaceConstraint && blockState.workoutType != .simple {
             updatedBlock.paceConstraint = PaceConstraint(
                 id: blockState.block.id,
                 pace: paceTotalSeconds

@@ -53,10 +53,9 @@ struct Block: Hashable, Codable, Identifiable {
 struct PaceConstraint:Hashable, Codable, Identifiable {
     var id: Int
     var pace: Int // seconds
-//    var paceHigh: Int
 }
 
 struct Duration: Hashable, Codable {
-    var seconds: Double
+    var seconds: Int
 }
 

@@ -53,11 +53,11 @@ struct BlockViewModel {
         
         if duration.seconds >= 3600 {
             let hours = duration.seconds / 3600
-            let minutes = (duration.seconds.truncatingRemainder(dividingBy: 3600)) / 60
+            let minutes = (duration.seconds %  3600) / 60
             return "\(hours)h \(minutes)m"
         } else if duration.seconds >= 60 {
             let minutes = duration.seconds / 60
-            let seconds = duration.seconds.truncatingRemainder(dividingBy: 60)
+            let seconds = duration.seconds % 60
             return seconds > 0 ? "\(minutes)m \(seconds)s" : "\(minutes) minutes"
         } else {
             return "\(duration.seconds) seconds"

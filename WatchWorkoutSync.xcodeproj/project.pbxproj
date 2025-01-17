@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		E733E2272D335F7600196DB3 /* WatchWorkoutSyncWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E733E2042D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		E733E17C2D33273C00196DB3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -25,27 +21,6 @@
 			remoteGlobalIDString = E733E1692D33273B00196DB3;
 			remoteInfo = WatchWorkoutSync;
 		};
-		E733E2142D335F7600196DB3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E733E1622D33273B00196DB3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E733E2032D335F7500196DB3;
-			remoteInfo = "WatchWorkoutSyncWatch Watch App";
-		};
-		E733E21E2D335F7600196DB3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E733E1622D33273B00196DB3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E733E2032D335F7500196DB3;
-			remoteInfo = "WatchWorkoutSyncWatch Watch App";
-		};
-		E733E2252D335F7600196DB3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E733E1622D33273B00196DB3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E733E2032D335F7500196DB3;
-			remoteInfo = "WatchWorkoutSyncWatch Watch App";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,7 +30,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				E733E2272D335F7600196DB3 /* WatchWorkoutSyncWatch Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,9 +40,6 @@
 		E733E16A2D33273B00196DB3 /* WatchWorkoutSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchWorkoutSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733E17B2D33273C00196DB3 /* WatchWorkoutSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchWorkoutSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733E1852D33273C00196DB3 /* WatchWorkoutSyncUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WatchWorkoutSyncUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E733E2042D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WatchWorkoutSyncWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E733E2132D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WatchWorkoutSyncWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E733E21D2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WatchWorkoutSyncWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -114,21 +85,6 @@
 			path = WatchWorkoutSyncUITests;
 			sourceTree = "<group>";
 		};
-		E733E2052D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "WatchWorkoutSyncWatch Watch App";
-			sourceTree = "<group>";
-		};
-		E733E2162D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "WatchWorkoutSyncWatch Watch AppTests";
-			sourceTree = "<group>";
-		};
-		E733E2202D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "WatchWorkoutSyncWatch Watch AppUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,27 +109,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E733E2012D335F7500196DB3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E2102D335F7600196DB3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E21A2D335F7600196DB3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -183,9 +118,6 @@
 				E733E16C2D33273B00196DB3 /* WatchWorkoutSync */,
 				E733E17E2D33273C00196DB3 /* WatchWorkoutSyncTests */,
 				E733E1882D33273C00196DB3 /* WatchWorkoutSyncUITests */,
-				E733E2052D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */,
-				E733E2162D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests */,
-				E733E2202D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */,
 				E733E16B2D33273B00196DB3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -196,9 +128,6 @@
 				E733E16A2D33273B00196DB3 /* WatchWorkoutSync.app */,
 				E733E17B2D33273C00196DB3 /* WatchWorkoutSyncTests.xctest */,
 				E733E1852D33273C00196DB3 /* WatchWorkoutSyncUITests.xctest */,
-				E733E2042D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App.app */,
-				E733E2132D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests.xctest */,
-				E733E21D2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,7 +147,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E733E2262D335F7600196DB3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				E733E16C2D33273B00196DB3 /* WatchWorkoutSync */,
@@ -276,74 +204,6 @@
 			productReference = E733E1852D33273C00196DB3 /* WatchWorkoutSyncUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E733E2282D335F7600196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch App" */;
-			buildPhases = (
-				E733E2002D335F7500196DB3 /* Sources */,
-				E733E2012D335F7500196DB3 /* Frameworks */,
-				E733E2022D335F7500196DB3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				E733E2052D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */,
-			);
-			name = "WatchWorkoutSyncWatch Watch App";
-			packageProductDependencies = (
-			);
-			productName = "WatchWorkoutSyncWatch Watch App";
-			productReference = E733E2042D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App.app */;
-			productType = "com.apple.product-type.application";
-		};
-		E733E2122D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E733E22C2D335F7700196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch AppTests" */;
-			buildPhases = (
-				E733E20F2D335F7600196DB3 /* Sources */,
-				E733E2102D335F7600196DB3 /* Frameworks */,
-				E733E2112D335F7600196DB3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E733E2152D335F7600196DB3 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E733E2162D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests */,
-			);
-			name = "WatchWorkoutSyncWatch Watch AppTests";
-			packageProductDependencies = (
-			);
-			productName = "WatchWorkoutSyncWatch Watch AppTests";
-			productReference = E733E2132D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		E733E21C2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E733E22F2D335F7700196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch AppUITests" */;
-			buildPhases = (
-				E733E2192D335F7600196DB3 /* Sources */,
-				E733E21A2D335F7600196DB3 /* Frameworks */,
-				E733E21B2D335F7600196DB3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E733E21F2D335F7600196DB3 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E733E2202D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */,
-			);
-			name = "WatchWorkoutSyncWatch Watch AppUITests";
-			packageProductDependencies = (
-			);
-			productName = "WatchWorkoutSyncWatch Watch AppUITests";
-			productReference = E733E21D2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -365,17 +225,6 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = E733E1692D33273B00196DB3;
 					};
-					E733E2032D335F7500196DB3 = {
-						CreatedOnToolsVersion = 16.0;
-					};
-					E733E2122D335F7600196DB3 = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = E733E2032D335F7500196DB3;
-					};
-					E733E21C2D335F7600196DB3 = {
-						CreatedOnToolsVersion = 16.0;
-						TestTargetID = E733E2032D335F7500196DB3;
-					};
 				};
 			};
 			buildConfigurationList = E733E1652D33273B00196DB3 /* Build configuration list for PBXProject "WatchWorkoutSync" */;
@@ -395,9 +244,6 @@
 				E733E1692D33273B00196DB3 /* WatchWorkoutSync */,
 				E733E17A2D33273C00196DB3 /* WatchWorkoutSyncTests */,
 				E733E1842D33273C00196DB3 /* WatchWorkoutSyncUITests */,
-				E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */,
-				E733E2122D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppTests */,
-				E733E21C2D335F7600196DB3 /* WatchWorkoutSyncWatch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -418,27 +264,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E733E1832D33273C00196DB3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E2022D335F7500196DB3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E2112D335F7600196DB3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E21B2D335F7600196DB3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -469,27 +294,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E733E2002D335F7500196DB3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E20F2D335F7600196DB3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E733E2192D335F7600196DB3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -502,21 +306,6 @@
 			isa = PBXTargetDependency;
 			target = E733E1692D33273B00196DB3 /* WatchWorkoutSync */;
 			targetProxy = E733E1862D33273C00196DB3 /* PBXContainerItemProxy */;
-		};
-		E733E2152D335F7600196DB3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */;
-			targetProxy = E733E2142D335F7600196DB3 /* PBXContainerItemProxy */;
-		};
-		E733E21F2D335F7600196DB3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */;
-			targetProxy = E733E21E2D335F7600196DB3 /* PBXContainerItemProxy */;
-		};
-		E733E2262D335F7600196DB3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E733E2032D335F7500196DB3 /* WatchWorkoutSyncWatch Watch App */;
-			targetProxy = E733E2252D335F7600196DB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -811,163 +600,6 @@
 			};
 			name = Release;
 		};
-		E733E2292D335F7600196DB3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"WatchWorkoutSyncWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WatchWorkoutSyncWatch-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = WatchWorkoutSyncWatch;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to save custom workouts";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to save custom workouts";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kumo.WatchWorkoutSync;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kumo.WatchWorkoutSync.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Debug;
-		};
-		E733E22A2D335F7600196DB3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"WatchWorkoutSyncWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WatchWorkoutSyncWatch-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = WatchWorkoutSyncWatch;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to save custom workouts";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to save custom workouts";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kumo.WatchWorkoutSync;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kumo.WatchWorkoutSync.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Release;
-		};
-		E733E22D2D335F7700196DB3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kumo.WatchWorkoutSyncWatch-Watch-AppTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WatchWorkoutSyncWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WatchWorkoutSyncWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Debug;
-		};
-		E733E22E2D335F7700196DB3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kumo.WatchWorkoutSyncWatch-Watch-AppTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WatchWorkoutSyncWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WatchWorkoutSyncWatch Watch App";
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Release;
-		};
-		E733E2302D335F7700196DB3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WatchWorkoutSyncWatch-Watch-AppUITests-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Watch Workout Sync";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Needed for the syncing to the watch.";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kumo.WatchWorkoutSyncWatch-Watch-AppUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "WatchWorkoutSyncWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Debug;
-		};
-		E733E2312D335F7700196DB3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S8YCCCY27D;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "WatchWorkoutSyncWatch-Watch-AppUITests-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Watch Workout Sync";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Needed for the syncing to the watch.";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kumo.WatchWorkoutSyncWatch-Watch-AppUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "WatchWorkoutSyncWatch Watch App";
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1003,33 +635,6 @@
 			buildConfigurations = (
 				E733E1962D33273C00196DB3 /* Debug */,
 				E733E1972D33273C00196DB3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E733E2282D335F7600196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E733E2292D335F7600196DB3 /* Debug */,
-				E733E22A2D335F7600196DB3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E733E22C2D335F7700196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch AppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E733E22D2D335F7700196DB3 /* Debug */,
-				E733E22E2D335F7700196DB3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E733E22F2D335F7700196DB3 /* Build configuration list for PBXNativeTarget "WatchWorkoutSyncWatch Watch AppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E733E2302D335F7700196DB3 /* Debug */,
-				E733E2312D335F7700196DB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
