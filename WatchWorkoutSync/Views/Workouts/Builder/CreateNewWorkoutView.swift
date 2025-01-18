@@ -7,6 +7,11 @@ struct CreateNewWorkoutView: View {
     @State private var workoutName = ""
     @State private var blocks: [BlockEditState] = []
     @State private var selectedWorkoutType: WorkoutType = .simple
+    @FocusState private var workoutNameIsFocused: Bool
+    
+    init() {
+        workoutNameIsFocused = true
+    }
     
     private var newWorkoutId: Int {
         (modelData.workouts.map { $0.id }.max() ?? 0) + 1
@@ -19,9 +24,16 @@ struct CreateNewWorkoutView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Workout Details")) {
-                    TextField("Workout Name", text: $workoutName)
-                    
+                TextField("Workout Name", text: $workoutName)
+                   .focused($workoutNameIsFocused)
+                   .frame(alignment: .leading)
+                   .textFieldStyle(PlainTextFieldStyle())
+                   .listRowInsets(EdgeInsets())
+                   .font(.largeTitle.bold())
+                   .listRowBackground(Color(.systemGray6))
+                   .padding(.vertical, -8)
+                   
+                Section() {
                     Picker("Workout Type", selection: $selectedWorkoutType) {
                         ForEach(WorkoutType.allCases, id: \.self) { type in
                             Text(type.rawValue.capitalized)
@@ -30,13 +42,7 @@ struct CreateNewWorkoutView: View {
                     }
                 }
                 
-                Section(header: Text("Blocks")) {
-                    if blocks.isEmpty {
-                        Text("Add a block to get started")
-                            .foregroundColor(.secondary)
-                            .italic()
-                    }
-                    
+                Section(header: Text("Blocks")) {                    
                     ForEach($blocks) { $blockState in
                         BlockEditView(blockState: $blockState)
                     }
@@ -62,7 +68,8 @@ struct CreateNewWorkoutView: View {
                     }
                 }
             }
-            .navigationTitle("New Workout")
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {

@@ -19,18 +19,19 @@ struct SimpleBlockEditView: View {
             switch viewModel.selectedMetric {
             case .time:
                 // Duration Input
-                VStack(alignment: .leading, spacing: 4) {
-//                    Text("Duration")
-//                        .font(.subheadline)
-//                        .foregroundColor(.secondary)
-                    DurationPicker(
-                        durationSeconds: $viewModel.durationSeconds,
-                        onDurationChange: { newValue in
-                            viewModel.updateDuration()
-                        }
+                VStack(alignment: .center, spacing: 4) {
+                    HStack {
+                        
+                        DurationPicker(
+                            durationSeconds: $viewModel.durationSeconds,
+                            onDurationChange: { newValue in
+                                viewModel.updateDuration()
+                            }
+                            
+                        )
+                        
+                    }
                     
-                    )
-                    .frame(height: 175)
 //                    MinutesSecondsPicker(distance: Binding<Int>, durationSeconds: <#T##Binding<Int>#>, distanceUnit: <#T##String#>)
 //
 //                    TextField("Duration (MM:SS)", text: $viewModel.durationString)
@@ -45,22 +46,7 @@ struct SimpleBlockEditView: View {
             case .distance:
                 // Distance Input
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Distance")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
-                    HStack {
-                        TextField("Value", text: $viewModel.distanceString)
-                            .keyboardType(.decimalPad)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        Picker("Unit", selection: $viewModel.selectedDistanceUnit) {
-                            ForEach(DistanceUnit.allCases, id: \.self) { unit in
-                                Text(unit.rawValue.capitalized).tag(unit)
-                            }
-                        }
-                        .frame(width: 100)
-                    }
+                        DistancePicker(viewModel: viewModel)
                 }
                 .onChange(of: viewModel.distanceString) {
                     viewModel.updateDistance()
