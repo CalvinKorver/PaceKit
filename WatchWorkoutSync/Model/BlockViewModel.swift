@@ -45,7 +45,7 @@ struct BlockViewModel {
             "miles"
         }
         
-        return "\(distance.value) \(unitText)"
+        return "\(distance.value) \(distance.getUnitShorthand()))"
     }
     
     var durationText: String? {

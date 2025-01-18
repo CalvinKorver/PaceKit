@@ -9,7 +9,7 @@ struct CreateNewWorkoutView: View {
     @State private var selectedWorkoutType: WorkoutType = .simple
     
     private var newWorkoutId: Int {
-        (modelData.landmarks.map { $0.id }.max() ?? 0) + 1
+        (modelData.workouts.map { $0.id }.max() ?? 0) + 1
     }
     
     private var newBlockId: Int {
@@ -173,7 +173,7 @@ struct CreateNewWorkoutView: View {
             imageName: "runner"
         )
         
-        modelData.landmarks.append(newWorkout)
+        modelData.workouts.append(newWorkout)
         dismiss()
     }
 }

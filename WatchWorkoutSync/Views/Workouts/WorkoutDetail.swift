@@ -9,14 +9,14 @@ import HealthKit
 
 struct WorkoutDetail: View {
     @Environment(ModelData.self) var modelData
-    var landmark: Workout
+    var workout: Workout
     
     @State private var showingSyncAlert = false
     @State private var syncError: Error?
     @State private var isSyncing = false
     
     var landmarkIndex: Int {
-        modelData.landmarks.firstIndex(where: { $0.id == landmark.id })!
+        modelData.workouts.firstIndex(where: { $0.id == workout.id })!
     }
 
     var body: some View {
@@ -25,7 +25,7 @@ struct WorkoutDetail: View {
             VStack(spacing: 16) {
                 // Header with name, favorite button, and sync button
                 HStack {
-                    Text(landmark.name)
+                    Text(workout.name)
                         .font(.largeTitle)
                         .bold()
                     Spacer()
@@ -41,7 +41,7 @@ struct WorkoutDetail: View {
                     }
                     .disabled(isSyncing)
                     
-                    FavoriteButton(isSet: $modelData.landmarks[landmarkIndex].isFavorite)
+                    FavoriteButton(isSet: $modelData.workouts[landmarkIndex].isFavorite)
                 }
                 .padding(.horizontal)
                 
@@ -51,9 +51,9 @@ struct WorkoutDetail: View {
                 }
                 
                 // Blocks
-                if let blocks = landmark.blocks {
+                if let blocks = workout.blocks {
                     ForEach(blocks, id: \.id) { block in
-                        BlockView(block: block, workout: landmark)
+                        BlockView(block: block, workout: workout)
                     }
                 }
             }
@@ -83,7 +83,7 @@ extension WorkoutDetail {
         
         do {
             try await healthKitService.requestAuthorization()
-            try await healthKitService.saveWorkout(landmark)
+            try await healthKitService.saveWorkout(workout)
             
             await MainActor.run {
                 syncError = nil
@@ -103,13 +103,13 @@ extension WorkoutDetail {
 
 
 #Preview {
-    WorkoutDetail(landmark: ModelData().landmarks[0])
+    WorkoutDetail(workout: ModelData().workouts[0])
         .environment(ModelData())
 }
 
 
 #Preview {
-    let landmarks = ModelData().landmarks
-    WorkoutDetail(landmark: landmarks[0])
+    let landmarks = ModelData().workouts
+    WorkoutDetail(workout: landmarks[0])
         .environment(ModelData())
 }

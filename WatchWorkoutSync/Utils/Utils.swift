@@ -43,3 +43,22 @@ func parseMinutesSeconds(_ timeString: String) -> Int? {
     }
     return nil
 }
+
+
+func distanceShortHand(_ distance: String) -> String {
+    switch distance {
+    case "meters":
+        return "met"
+    case "kilometers":
+        return "km"
+    case "miles":
+        return "mi"
+    default:
+        return "unknown"
+    }
+}
+    
+    
+
+
+

@@ -31,7 +31,7 @@ struct WorkoutRow: View {
 }
 
 #Preview {
-    let landmarks = ModelData().landmarks
+    let landmarks = ModelData().workouts
     Group {
         WorkoutRow(landmark: landmarks[0])
         WorkoutRow(landmark: landmarks[1])

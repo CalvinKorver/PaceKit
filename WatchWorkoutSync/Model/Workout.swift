@@ -39,6 +39,18 @@ enum WorkoutType: String, CaseIterable, Decodable, Encodable {
 struct Distance: Hashable, Codable {
     var value: Double
     var unit: DistanceUnit
+    
+    func getUnitShorthand() -> String {
+        return distanceShortHand(unit.rawValue)
+    }
+    
+    func getUnit() -> String {
+        return unit.rawValue
+    }
+    
+    func getValue() -> Double {
+        return value
+    }
 }
 
 

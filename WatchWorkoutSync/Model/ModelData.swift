@@ -11,7 +11,7 @@ import SwiftUI
 
 @Observable
 class ModelData {
-    var landmarks: [Workout] = load("workoutData.json")
+    var workouts: [Workout] = load("workoutData.json")
 }
 
 
