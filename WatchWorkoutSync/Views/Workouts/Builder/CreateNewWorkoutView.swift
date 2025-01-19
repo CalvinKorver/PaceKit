@@ -21,6 +21,23 @@ struct CreateNewWorkoutView: View {
         (blocks.map { $0.block.id }.max() ?? 1000) + 1
     }
     
+    private func blockText() -> String {
+        if selectedWorkoutType == .simple || selectedWorkoutType == .pacer {
+            return "Block"
+        } else {
+            return "Blocks"
+        }
+    }
+    
+    private func blockButton(_ text: String) -> some View {
+        HStack {
+                Image(systemName: "plus.circle.fill")
+                Text(text)
+        }
+        .foregroundStyle(text == "Add Block" ? Color.blue : Color.green)
+
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -42,28 +59,20 @@ struct CreateNewWorkoutView: View {
                     }
                 }
                 
-                Section(header: Text("Blocks")) {                    
+                Section(header: Text(blockText())) {
                     ForEach($blocks) { $blockState in
                         BlockEditView(blockState: $blockState)
                     }
                     .onDelete(perform: deleteBlocks)
                     
                     if shouldShowAddBlockButton {
-                        Button(action: addEmptyBlock) {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                Text("Add Block")
+                        if (selectedWorkoutType.rawValue == "custom" && blocks.allSatisfy({$0.type != BlockType.warmup})) {
+                            Button(action: {addEmptyBlock(blockType: .warmup)}) {
+                                blockButton("Add Warmup Block")
                             }
                         }
-                    }
-                }
-                
-                if !blocks.isEmpty {
-                    Section {
-                        if !areBlocksValid {
-                            Text(validationMessage)
-                                .foregroundColor(.red)
-                                .font(.caption)
+                        Button(action: {addEmptyBlock(blockType: .mainSet)}) {
+                            blockButton("Add Block")
                         }
                     }
                 }
@@ -93,20 +102,14 @@ struct CreateNewWorkoutView: View {
     private var shouldShowAddBlockButton: Bool {
         switch selectedWorkoutType {
         case .simple:
-            return true
+            return blocks.isEmpty
         case .pacer:
             return blocks.isEmpty
+        case .custom:
+            return true
         }
     }
-    
-    private var validationMessage: String {
-        switch selectedWorkoutType {
-        case .simple:
-            return "Please ensure all blocks have a name and either distance or duration set"
-        case .pacer:
-            return "Please ensure the block has a name, distance, and duration set"
-        }
-    }
+
     
     private var isWorkoutValid: Bool {
         guard !workoutName.isEmpty && !blocks.isEmpty else { return false }
@@ -114,6 +117,9 @@ struct CreateNewWorkoutView: View {
         switch selectedWorkoutType {
         case .simple:
             return areBlocksValid
+        case .custom:
+            return areBlocksValid
+            
         case .pacer:
             return blocks.count == 1 && areBlocksValid
         }
@@ -132,22 +138,26 @@ struct CreateNewWorkoutView: View {
                 if !hasDistance && !hasDuration { return false }
             case .pacer:
                 if !hasDistance || !hasDuration { return false }
+            case .custom:
+                return true
             }
         }
         return true
     }
     
-    private func addEmptyBlock() {
+    private func addEmptyBlock(blockType: BlockType) {
         let newBlock = Block(
             id: newBlockId,
             name: "",
             distance: nil,
             duration: nil,
-            paceConstraint: nil
+            paceConstraint: nil,
+            type: blockType
         )
         
         let blockState = BlockEditState(
             block: newBlock,
+            type: newBlock.type,
             workoutType: selectedWorkoutType
         )
         blocks.append(blockState)
@@ -200,6 +210,9 @@ extension BlockEditState {
         case .pacer:
             // Pacer workouts need both distance and duration
             return block.distance != nil && block.duration != nil
+            
+        case .custom:
+            return true
         }
     }
 }

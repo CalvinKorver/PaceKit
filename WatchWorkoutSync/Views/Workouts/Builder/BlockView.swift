@@ -44,7 +44,8 @@ struct BlockView: View {
     // Create a sample workout and block for preview
     let block = Block(id: 1,
                       name: "Sample Block",
-                      duration: Duration(seconds: 600)
+                      duration: Duration(seconds: 600),
+                      type: .mainSet
     )
     let workout = Workout(
         id: 1,

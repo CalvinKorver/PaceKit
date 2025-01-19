@@ -56,7 +56,8 @@ struct DistancePicker: View {
     struct PreviewWrapper: View {
         @StateObject private var viewModel = BlockEditViewModel(
             blockState: BlockEditState(
-                block: Block(id: 1, name: "Test"),
+                block: Block(id: 1, name: "Test", type: .mainSet),
+                type: .mainSet,
                 workoutType: .simple
             )
         )

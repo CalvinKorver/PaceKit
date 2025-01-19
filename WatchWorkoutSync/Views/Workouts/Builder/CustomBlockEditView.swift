@@ -1,10 +1,21 @@
+//
+//  CustomBlockEditView.swift
+//  WatchWorkoutSync
+//
+//  Created by Calvin Korver on 1/18/25.
+//
 import SwiftUI
 
-struct SimpleBlockEditView: View {
+struct CustomBlockEditView: View {
     @ObservedObject var viewModel: BlockEditViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+                TextField("Block Name", text: $viewModel.blockName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            
+                
             // Metric Type Selector
             Picker("Metric", selection: $viewModel.selectedMetric) {
                 ForEach([BlockEditViewModel.MetricType.time, .distance], id: \.self) { metric in
@@ -56,7 +67,6 @@ struct SimpleBlockEditView: View {
         }
     }
 }
-
 #Preview {
     let block = Block(
         id: 1,
@@ -67,7 +77,7 @@ struct SimpleBlockEditView: View {
         type: .mainSet
     )
     
-    SimpleBlockEditView(
+    CustomBlockEditView(
         viewModel: BlockEditViewModel(
             blockState: BlockEditState(
                 block: block,

@@ -16,7 +16,8 @@
                },
                "duration": null,
                "distanceUnit": null,
-               "paceConstraint": null
+               "paceConstraint": null,
+               "type": 1
            }
        ]
     }

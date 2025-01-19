@@ -13,14 +13,17 @@ struct BlockEditView: View {
     
     var body: some View {
             VStack(alignment: .leading, spacing: 12) {
+            
                 if blockState.workoutType == .pacer {
                     TextField("Block Name", text: $viewModel.blockName)
                         .font(.headline)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                    
                     PacerBlockEditView(viewModel: viewModel)
-                } else {
+                } else if blockState.workoutType == .simple || blockState.block.type == .warmup {
                     SimpleBlockEditView(viewModel: viewModel)
+                } else {
+                    CustomBlockEditView(viewModel: viewModel)
                 }
             }
             .padding()
@@ -36,23 +39,25 @@ struct BlockEditView: View {
 struct BlockEditState: Identifiable {
     var id: Int { block.id }  // Use the block's id as the BlockEditState's id
     var block: Block
+    var type: BlockType
     var workoutType: WorkoutType
 }
 
-#Preview {
-    let block = Block(
-        id: 1,
-        name: "Sample Block",
-        distance: Distance(value: 5.0, unit: .kilometers),
-        duration: Duration(seconds: 1800),
-        paceConstraint: PaceConstraint(id: 1, pace: 300)
-    )
-    
-    return BlockEditView(
-        blockState: .constant(BlockEditState(
-            block: block,
-            workoutType: .pacer
-        ))
-    )
-    .padding()
-}
+//#Preview {
+//    let block = Block(
+//        id: 1,
+//        name: "Sample Block",
+//        distance: Distance(value: 5.0, unit: .kilometers),
+//        duration: Duration(seconds: 1800),
+//        paceConstraint: PaceConstraint(id: 1, pace: 300)
+//    )
+//    
+//    return BlockEditView(
+//        blockState: .constant(BlockEditState(
+//            block: block,
+//            type: BlockType.fromString("pacer")!,
+//            workoutType: .pacer
+//        ))
+//    )
+//    .padding()
+//}
