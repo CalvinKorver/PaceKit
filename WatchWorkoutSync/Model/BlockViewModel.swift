@@ -11,17 +11,6 @@ struct BlockViewModel {
         self.workout = workout
     }
     
-    var name: String {
-        switch workout.type {
-        case .simple:
-            return "Main Block"
-        case .pacer:
-            return "Main Block"
-        default:
-            return block.name
-        }
-    }
-    
     var isMainBlock: Bool {
         switch workout.type {
         case .simple:
@@ -36,7 +25,7 @@ struct BlockViewModel {
     var distanceText: String? {
         guard let distance = block.distance else { return nil }
         
-        let unitText = switch distance.unit {
+        let _ = switch distance.unit {
         case .meters:
             "meters"
         case .kilometers:
@@ -64,10 +53,10 @@ struct BlockViewModel {
         }
     }
     
-    var paceConstraintText: String? {
-        guard let pace = block.paceConstraint else { return nil }
-        return formatPace(pace: pace.pace)
-    }
+//    var paceConstraintText: String? {
+//        guard let pace = block.paceConstraint else { return nil }
+//        return formatPace(pace: pace.pace)
+//    }
     
     private func formatPace(pace: Int) -> String {
         let secondsFormatted = formatMinuteSeconds(seconds: pace)

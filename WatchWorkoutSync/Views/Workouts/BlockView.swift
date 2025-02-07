@@ -10,8 +10,7 @@ struct BlockView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(viewModel.name)
-                .font(.headline)
+
             
             if let distanceText = viewModel.distanceText {
                 Text(distanceText)
@@ -23,10 +22,10 @@ struct BlockView: View {
                     .font(.subheadline)
             }
             
-            if let paceText = viewModel.paceConstraintText {
-                Text(paceText)
-                    .font(.subheadline)
-            }
+//            if let paceText = viewModel.paceConstraintText {
+//                Text(paceText)
+//                    .font(.subheadline)
+//            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -39,22 +38,22 @@ struct BlockView: View {
         .padding(.horizontal)
     }
 }
-
-#Preview {
-    // Create a sample workout and block for preview
-    let block = Block(id: 1,
-                      name: "Sample Block",
-                      duration: Duration(seconds: 600),
-                      type: .mainSet
-    )
-    let workout = Workout(
-        id: 1,
-        name: "Sample Workout",
-        type: "simple",
-        blocks: [block],
-        isFavorite: false,
-        imageName: "runner"
-    )
-    
-    BlockView(block: block, workout: workout)
-}
+//
+//#Preview {
+//    // Create a sample workout and block for preview
+//    let block = Block(id: 1,
+//                      name: "Sample Block",
+//                      duration: Duration(seconds: 600),
+//                      type: .mainSet
+//    )
+//    let workout = Workout(
+//        id: 1,
+//        name: "Sample Workout",
+//        type: "simple",
+//        blocks: [block],
+//        isFavorite: false,
+//        imageName: "runner"
+//    )
+//    
+//    BlockView(block: block, workout: workout)
+//}

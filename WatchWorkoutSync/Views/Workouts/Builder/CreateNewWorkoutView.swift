@@ -1,90 +1,63 @@
 import SwiftUI
-
+// CreateNewWorkoutView.swift
 struct CreateNewWorkoutView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.dismiss) var dismiss
-    
-    @State private var workoutName = ""
-    @State private var blocks: [BlockEditState] = []
-    @State private var selectedWorkoutType: WorkoutType = .simple
+    @StateObject private var viewModel: CreateNewWorkoutViewModel
     @FocusState private var workoutNameIsFocused: Bool
     
     init() {
+        _viewModel = StateObject(wrappedValue: CreateNewWorkoutViewModel(modelData: ModelData()))
         workoutNameIsFocused = true
-    }
-    
-    private var newWorkoutId: Int {
-        (modelData.workouts.map { $0.id }.max() ?? 0) + 1
-    }
-    
-    private var newBlockId: Int {
-        (blocks.map { $0.block.id }.max() ?? 1000) + 1
-    }
-    
-    private func blockText() -> String {
-        if selectedWorkoutType == .simple || selectedWorkoutType == .pacer {
-            return "Block"
-        } else {
-            return "Blocks"
-        }
-    }
-    
-    private func blockButton(_ text: String) -> some View {
-        HStack {
-                Image(systemName: "plus.circle.fill")
-                Text(text)
-        }
-        .foregroundStyle(text == "Add Block" ? Color.blue : Color.green)
-
     }
     
     var body: some View {
         NavigationStack {
-            Form {
-                TextField("Workout Name", text: $workoutName)
-                   .focused($workoutNameIsFocused)
-                   .frame(alignment: .leading)
-                   .textFieldStyle(PlainTextFieldStyle())
-                   .listRowInsets(EdgeInsets())
-                   .font(.largeTitle.bold())
-                   .listRowBackground(Color(.systemGray6))
-                   .padding(.vertical, -8)
-                   
-                Section() {
-                    Picker("Workout Type", selection: $selectedWorkoutType) {
-                        ForEach(WorkoutType.allCases, id: \.self) { type in
-                            Text(type.rawValue.capitalized)
-                                .tag(type)
-                        }
-                    }
-                }
+            ZStack {
+                Color(.systemGray6)
+                    .ignoresSafeArea()
                 
-                Section(header: Text(blockText())) {
-                    ForEach($blocks) { $blockState in
-                        BlockEditView(blockState: $blockState)
-                    }
-                    .onDelete(perform: deleteBlocks)
+                VStack {
+                    // Workout Name Field
+                    WorkoutNameField(
+                        text: Binding(
+                            get: { viewModel.workoutName },
+                            set: { viewModel.updateWorkoutName($0) }
+                        ),
+                        isFocused: $workoutNameIsFocused
+                    )
                     
-                    if shouldShowAddBlockButton {
-                        if (selectedWorkoutType.rawValue == "custom" && blocks.allSatisfy({$0.type != BlockType.warmup})) {
-                            Button(action: {addEmptyBlock(blockType: .warmup)}) {
-                                blockButton("Add Warmup Block")
-                            }
-                        }
-                        Button(action: {addEmptyBlock(blockType: .mainSet)}) {
-                            blockButton("Add Block")
+                    // Blocks Header
+                    BlocksHeader()
+                    
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // Warmup Block Section
+                            BlockSection(
+                                viewModel: viewModel,
+                                blockType: WarmupBlock.self
+                            )
+                            
+                            // Work/Rest Section
+                            WorkRestSection(viewModel: viewModel)
+                            
+                            // Cooldown Block Section
+                            BlockSection(
+                                viewModel: viewModel,
+                                blockType: CooldownBlock.self
+                            )
                         }
                     }
+                    .padding()
                 }
             }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        saveWorkout()
+                        viewModel.saveWorkout()
+                        dismiss()
                     }
-                    .disabled(!isWorkoutValid)
+                    .disabled(!viewModel.isWorkoutValid)
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
@@ -92,128 +65,115 @@ struct CreateNewWorkoutView: View {
                     }
                 }
             }
-            .onChange(of: selectedWorkoutType) { oldValue, newValue in
-                updateBlockStatesForWorkoutType(newValue)
-            }
         }
-        .navigationBarBackButtonHidden()
-    }
-    
-    private var shouldShowAddBlockButton: Bool {
-        switch selectedWorkoutType {
-        case .simple:
-            return blocks.isEmpty
-        case .pacer:
-            return blocks.isEmpty
-        case .custom:
-            return true
-        }
-    }
-
-    
-    private var isWorkoutValid: Bool {
-        guard !workoutName.isEmpty && !blocks.isEmpty else { return false }
-        
-        switch selectedWorkoutType {
-        case .simple:
-            return areBlocksValid
-        case .custom:
-            return areBlocksValid
-            
-        case .pacer:
-            return blocks.count == 1 && areBlocksValid
-        }
-    }
-    
-    private var areBlocksValid: Bool {
-        for blockState in blocks {
-            let nameValid = !blockState.block.name.isEmpty
-            let hasDistance = blockState.block.distance != nil
-            let hasDuration = blockState.block.duration != nil
-            
-            if !nameValid { return false }
-            
-            switch selectedWorkoutType {
-            case .simple:
-                if !hasDistance && !hasDuration { return false }
-            case .pacer:
-                if !hasDistance || !hasDuration { return false }
-            case .custom:
-                return true
-            }
-        }
-        return true
-    }
-    
-    private func addEmptyBlock(blockType: BlockType) {
-        let newBlock = Block(
-            id: newBlockId,
-            name: "",
-            distance: nil,
-            duration: nil,
-            paceConstraint: nil,
-            type: blockType
-        )
-        
-        let blockState = BlockEditState(
-            block: newBlock,
-            type: newBlock.type,
-            workoutType: selectedWorkoutType
-        )
-        blocks.append(blockState)
-    }
-    
-    private func deleteBlocks(at offsets: IndexSet) {
-        blocks.remove(atOffsets: offsets)
-    }
-    
-    private func updateBlockStatesForWorkoutType(_ type: WorkoutType) {
-        blocks = blocks.map { blockState in
-            var updatedState = blockState
-            updatedState.workoutType = type
-            return updatedState
-        }
-        
-        // For pacer workouts, ensure only one block
-        if type == .pacer && blocks.count > 1 {
-            blocks = Array(blocks.prefix(1))
-        }
-    }
-    
-    private func saveWorkout() {
-        let newWorkout = Workout(
-            id: newWorkoutId,
-            name: workoutName,
-            type: selectedWorkoutType.rawValue,
-            blocks: blocks.map { $0.block },
-            isFavorite: false,
-            imageName: "runner"
-        )
-        
-        modelData.workouts.append(newWorkout)
-        dismiss()
     }
 }
 
-// Extension to handle workout type validation rules
-extension BlockEditState {
-    var isValid: Bool {
-        // Basic validation
-        guard !block.name.isEmpty else { return false }
-        
-        // Validate based on workout type
-        switch workoutType {
-        case .simple:
-            // Simple workouts need either distance or duration
-            return block.distance != nil || block.duration != nil
-            
-        case .pacer:
-            // Pacer workouts need both distance and duration
-            return block.distance != nil && block.duration != nil
-            
-        case .custom:
-            return true
+// Helper Views
+struct WorkoutNameField: View {
+    let text: Binding<String>
+    let isFocused: FocusState<Bool>.Binding
+    
+    var body: some View {
+        TextField("Workout Name", text: text)
+            .frame(alignment: .leading)
+            .focused(isFocused)
+            .font(.largeTitle.bold())
+            .padding(EdgeInsets(top: 16, leading: 18, bottom: 0, trailing: 20))
+    }
+}
+
+struct BlocksHeader: View {
+    var body: some View {
+        HStack {
+            Text("BLOCKS")
+                .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 0))
+                .frame(alignment: .leading)
+                .foregroundStyle(.secondary)
+                .font(.subheadline)
+                .padding(.top)
+            Spacer()
         }
+        .padding(.horizontal)
+    }
+}
+
+struct BlockSection: View {
+    @ObservedObject var viewModel: CreateNewWorkoutViewModel
+    let blockType: Block.Type
+    
+    var body: some View {
+        SectionCard {
+            if let block = viewModel.blocks.first(where: { type(of: $0.block.self) == blockType }),
+               let index = viewModel.blocks.firstIndex(where: { type(of: $0.block.self) == blockType }) {
+                BlockEditListView(
+                    viewModel: viewModel,
+                    block: block,
+                    index: index
+                )
+            } else {
+                AddBlockButton(
+                    blockType: blockType,
+                    action: { viewModel.addEmptyBlock(blockType: blockType) }
+                )
+            }
+        }
+    }
+}
+
+struct BlockEditListView: View {
+    @ObservedObject var viewModel: CreateNewWorkoutViewModel
+    let block: BlockEditState
+    let index: Int
+    
+    var body: some View {
+        List {
+            Group {
+                if type(of: block.block) == WorkBlock.self {
+                    CustomBlockEditView(
+                        viewModel: BlockEditViewModel(
+                            blockState: viewModel.binding(for: block).wrappedValue
+                        )
+                    )
+                } else {
+                    SimpleBlockEditView(
+                        viewModel: BlockEditViewModel(
+                            blockState: viewModel.binding(for: block).wrappedValue
+                        )
+                    )
+                }
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+            .listSectionSeparator(.hidden)
+            .swipeActions(edge: .trailing) {
+                Button(role: .destructive) {
+                    viewModel.deleteBlock(at: index)
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+        }
+        .listStyle(PlainListStyle())
+        .frame(minHeight: 124) // Set minimum height for List
+
+    }
+}
+
+struct BlockButton: View {
+    let title: String
+    let color: Color
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "plus.circle")
+            Text(title)
+        }
+        .foregroundStyle(Color.primary)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(color.opacity(0.5))
+        .cornerRadius(8)
     }
 }
 
