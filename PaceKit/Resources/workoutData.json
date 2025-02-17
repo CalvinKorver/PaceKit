@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Complete Training Run",
+        "id": 100,
+        "imageName": "runner",
+        "isFavorite": true,
+        "blocks": [
+            {
+                "id": 1001,
+                "blockType": 1,
+                "distance": {
+                    "value": 1.0,
+                    "unit": "miles"
+                },
+                "duration": null,
+                "metricType": "Distance"
+            },
+            {
+                "id": 1002,
+                "blockType": 3,
+                "distance": {
+                    "value": 3.0,
+                    "unit": "miles"
+                },
+                "duration": null,
+                "metricType": "Distance",
+                "paceConstraint": {
+                    "duration": 480,
+                    "unit": "miles"
+                },
+                "repeats": null,
+                "rest": {
+                    "id": 1003,
+                    "blockType": 4,
+                    "duration": {
+                        "seconds": 180
+                    },
+                    "distance": null,
+                    "metricType": "Time"
+                }
+            },
+            {
+                "id": 1004,
+                "blockType": 2,
+                "distance": {
+                    "value": 1.0,
+                    "unit": "miles"
+                },
+                "duration": null,
+                "metricType": "Distance"
+            }
+        ]
+    }
+]

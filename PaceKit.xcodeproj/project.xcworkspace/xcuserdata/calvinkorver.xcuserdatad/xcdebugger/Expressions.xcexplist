@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in BlockView.body.getter:BlockView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "block.self">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.distanceText">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in CreateNewWorkoutView.body.getter:CreateNewWorkoutView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedWorkoutType.rawValue == &quot;simple&quot;">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockViewModel.distanceText.getter:BlockViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "distance.getUnitShorthand()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in closure #2 in closure #1 in closure #1 in CreateNewWorkoutView.body.getter:CreateNewWorkoutView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in DurationPicker.body.getter:DurationPicker.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
