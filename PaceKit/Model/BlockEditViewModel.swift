@@ -132,15 +132,15 @@ class BlockEditViewModel: ObservableObject {
     }
     
     var isWorkBlock: Bool {
-        return blockState.block is WorkBlock
+        return blockState.block.blockType == .work
     }
     
     var isWarmupBlock: Bool {
-        return blockState.block is SimpleBlock
+        return blockState.block.blockType == .warmup
     }
     
     var isCooldownBlock: Bool {
-        return blockState.block is SimpleBlock
+        return blockState.block.blockType == .cooldown
     }
 
 }

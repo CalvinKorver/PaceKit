@@ -65,7 +65,7 @@ struct WorkRestSection: View {
                     if let workBlock = workBlockState.block as? WorkBlock {
                         if let rest = workBlock.restBlock {
                             // Show rest block editor when rest exists
-                            SimpleBlockEditView(
+                            BlockEditBase(
                                 viewModel: BlockEditViewModel(
                                     blockState: BlockEditState(
                                         block: rest,
@@ -88,6 +88,9 @@ struct WorkRestSection: View {
                         RestButton(viewModel: viewModel, isDisabled: true)
                     }
                 }
+                IntervalCountSection(
+                    viewModel: viewModel
+                )
             }
 
             
@@ -123,35 +126,38 @@ struct WorkRestSection: View {
             ))
             return vm
         }())
-//        .previewDisplayName("With Work Block")
-        
-//        // With work block and rest
-//        WorkRestSection(viewModel: {
-//            let vm = CreateNewWorkoutViewModel(modelData: modelData)
-//            var workBlock = WorkBlock(
-//                id: 1,
-//                name: "Work Block",
-//                distance: Distance(value: 1.25, unit: .miles),
-//                duration: nil,
-//                type: .mainSet
-//            )
-//            workBlock.rest = Block(
-//                id: 2,
-//                name: "Rest",
-//                distance: Distance(value: 0.25, unit: .miles),
-//                duration: nil,
-//                type: .cooldown
-//            )
-//            vm.blocks.append(BlockEditState(
-//                block: workBlock,
-//                type: .mainSet
-//            ))
-//            return vm
-//        }())
-//        .previewDisplayName("With Work and Rest")
     }
     .padding()
 }
+
+
+struct IntervalCountSection: View {
+    @ObservedObject var viewModel: CreateNewWorkoutViewModel
+    
+    var body: some View {
+        if let block = viewModel.blocks.first(where: { $0.block.blockType == .work }) {
+            if let workBlock = block.block as? WorkBlock {
+                HStack {
+                    Text("Repeat: ")
+                    Text(String(workBlock.repeats ?? 1))
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                    Stepper(
+                        value: Binding(
+                            get: { workBlock.repeats ?? 1 },
+                            set: { newValue in viewModel.updateRepeatedCount(newValue)}
+                        ),
+                        in: 1...10,
+                        step: 1
+                    ){}
+                            
+                }
+            }
+        }
+    }
+}
+
 
 struct RestButton: View {
     @ObservedObject var viewModel: CreateNewWorkoutViewModel

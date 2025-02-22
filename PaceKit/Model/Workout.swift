@@ -13,7 +13,7 @@ struct Workout: Hashable, Codable, Identifiable {
         Image(imageName)
     }
     
-    init(id: Int, name: String, blocks: [Block], isFavorite: Bool, imageName: String) {
+    public init(id: Int, name: String, blocks: [Block], isFavorite: Bool, imageName: String) {
         self.id = id
         self.name = name
         self.blocks = blocks

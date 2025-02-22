@@ -47,7 +47,7 @@ struct CreateNewWorkoutView: View {
                             // Cooldown Block Section
                             BlockSection(
                                 viewModel: viewModel,
-                                blockType: .cooldown                            )
+                                blockType: .cooldown)
                         }
                     }
                     .padding()
@@ -131,19 +131,12 @@ struct BlockEditListView: View {
     var body: some View {
         List {
             Group {
-                if type(of: block.block) == WorkBlock.self {
-                    CustomBlockEditView(
-                        viewModel: BlockEditViewModel(
-                            blockState: viewModel.binding(for: block).wrappedValue
-                        )
+            
+                BlockEditBase(
+                    viewModel: BlockEditViewModel(
+                        blockState: viewModel.binding(for: block).wrappedValue
                     )
-                } else {
-                    SimpleBlockEditView(
-                        viewModel: BlockEditViewModel(
-                            blockState: viewModel.binding(for: block).wrappedValue
-                        )
-                    )
-                }
+                )
             }
             .listRowInsets(EdgeInsets())
             .listRowBackground(Color.clear)

@@ -120,7 +120,7 @@ class HealthKitService {
         return WorkoutStep(goal: goal, alert: nil)
     }
 
-    private func buildWorkBlock(from workBlock: WorkBlock) -> IntervalBlock {
+    private func buildWorkBlock(from workBlock: WorkBlock) -> IntervalBlock {3
         // Create work step
         let workGoal = createGoalFromBlock(workBlock)
         let workStep = IntervalStep(.work, goal: workGoal, alert: nil)
@@ -139,7 +139,7 @@ class HealthKitService {
             intervalSteps = [workStep]
         }
         
-        return IntervalBlock(steps: intervalSteps, iterations: 1)
+        return IntervalBlock(steps: intervalSteps, iterations: workBlock.repeats ?? 1)
     }
     
     // Define custom error type

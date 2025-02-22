@@ -22,12 +22,29 @@ class CreateNewWorkoutViewModel: ObservableObject {
     }
     
     var hasWarmupBlock: Bool {
-        blocks.contains(where: { $0.block is SimpleBlock })
+        blocks.contains(where: { $0.block.blockType == .warmup })
     }
     
     var hasCooldownBlock: Bool {
-        blocks.contains(where: { $0.block is SimpleBlock })
+        blocks.contains(where: { $0.block.blockType == .cooldown })
     }
+    
+    func updateRepeatedCount(_ newCount: Int) {
+        guard let workBlockIndex = blocks.firstIndex(where: { type(of: $0.block) == WorkBlock.self }),
+              var workBlock = blocks[workBlockIndex].block as? WorkBlock else {
+            return
+        }
+        
+        
+        workBlock.repeats = newCount
+        
+        var updatedState = blocks[workBlockIndex]
+        updatedState.block = workBlock
+        blocks[workBlockIndex] = updatedState
+        
+        objectWillChange.send()
+    }
+    
     
     func updateModelData(_ newModelData: ModelData) {
         print("Updating ModelData reference in ViewModel")
@@ -70,15 +87,8 @@ class CreateNewWorkoutViewModel: ObservableObject {
         for blockState in blocks {
             let hasDistance = blockState.block.distance != nil
             let hasDuration = blockState.block.duration != nil
-            
-//            switch selectedWorkoutType {
-//            case .simple:
-//                if !hasDistance && !hasDuration { return false }
-//            case .pacer:
-//                if !hasDistance || !hasDuration { return false }
-//            case .custom:
                 return true
-//            }
+            
         }
         return true
     }
@@ -96,7 +106,7 @@ class CreateNewWorkoutViewModel: ObservableObject {
         if blockType == .work {
             let newBlock = WorkBlock(
                 id: newBlockId,
-                distance: nil,
+                distance: Distance(value: 1.0, unit: .miles),
                 duration: nil,
                 paceConstraint: nil,
                 rest: nil,
@@ -109,8 +119,8 @@ class CreateNewWorkoutViewModel: ObservableObject {
         } else {
             let newBlock = SimpleBlock(
                 id: newBlockId,
-                blockType: .warmup,
-                distance: nil,
+                blockType: blockType,
+                distance: Distance(value: 1.0, unit: .miles),
                 duration: nil
             )
             blockState = BlockEditState(

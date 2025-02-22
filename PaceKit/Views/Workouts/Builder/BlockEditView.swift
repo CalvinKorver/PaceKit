@@ -5,20 +5,28 @@ protocol BlockEditViewProtocol {
     var viewModel: BlockEditViewModel { get }
     var quantity: Double { get set }
     var seconds: Int { get set }
-    var selectedMetric: MetricType { get set }  // Add this
-
+    var selectedMetric: MetricType { get set }
 }
-// Shared base view that contains common state and functionality
+
+// Main block edit view - replaces both SimpleBlockEditView and CustomBlockEditView
 struct BlockEditBase: View, BlockEditViewProtocol {
     @ObservedObject var viewModel: BlockEditViewModel
-    @State var quantity: Double = 1.25
-    @State var seconds: Int = 300
+    @State var quantity: Double
+    @State var seconds: Int
     @State var selectedMetric: MetricType
-    let content: () -> AnyView
+    let content: (() -> AnyView)?
     
-    init(viewModel: BlockEditViewModel, @ViewBuilder content: @escaping () -> some View) {
+    init(viewModel: BlockEditViewModel, @ViewBuilder content: @escaping () -> some View = { EmptyView() }) {
         self.viewModel = viewModel
+        
+        // Initialize from the viewModel's actual values
+        let initialDistance = viewModel.blockState.block.distance?.value ?? 0.0
+        let initialDuration = viewModel.blockState.block.duration?.seconds ?? 300
+        
+        self._quantity = State(initialValue: initialDistance)
+        self._seconds = State(initialValue: initialDuration)
         self._selectedMetric = State(initialValue: viewModel.blockState.selectedMetric)
+        
         self.content = { AnyView(content()) }
     }
     
@@ -27,34 +35,17 @@ struct BlockEditBase: View, BlockEditViewProtocol {
             viewModel: viewModel,
             quantity: $quantity,
             seconds: $seconds,
-            selectedMetric: $selectedMetric
-        ) {
-            content()
-        }
+            selectedMetric: $selectedMetric,
+            content: content
+        )
         .frame(minHeight: 120)
-    }
-}
-
-// Simplified SimpleBlockEditView
-struct SimpleBlockEditView: View {
-    @ObservedObject var viewModel: BlockEditViewModel
-    
-    var body: some View {
-        BlockEditBase(viewModel: viewModel) {
-            // Any additional content specific to SimpleBlockEditView
-            EmptyView()
-        }
-    }
-}
-
-// Simplified CustomBlockEditView
-struct CustomBlockEditView: View {
-    @ObservedObject var viewModel: BlockEditViewModel
-    
-    var body: some View {
-        BlockEditBase(viewModel: viewModel) {
-            // Custom content can go here
-            EmptyView()
+        .onAppear {
+            // Ensure view model has the right values on appear
+            if selectedMetric == .distance {
+                viewModel.distance = quantity
+            } else {
+                viewModel.durationSeconds = seconds
+            }
         }
     }
 }
@@ -63,7 +54,7 @@ struct BlockEditState: Identifiable {
     var id: Int { block.id }
     var block: Block
     var type: Block.Type
-    var selectedMetric: MetricType // Add this
+    var selectedMetric: MetricType
     
     init(block: Block, type: Block.Type) {
         self.block = block
@@ -71,7 +62,6 @@ struct BlockEditState: Identifiable {
         // Initialize selectedMetric based on block properties
         self.selectedMetric = block.duration != nil ? .time : .distance
     }
-
 }
 
 // Custom view modifier for section cards
@@ -117,7 +107,7 @@ struct NestedSectionCard<Content: View>: View {
     )
 
     Section {
-        SimpleBlockEditView(
+        BlockEditBase(
             viewModel: BlockEditViewModel(
                 blockState: BlockEditState(
                     block: block,
@@ -127,15 +117,6 @@ struct NestedSectionCard<Content: View>: View {
         )
         .padding()
         
-        CustomBlockEditView(
-            viewModel: BlockEditViewModel(
-                blockState: BlockEditState(
-                    block: block,
-                    type: WorkBlock.self
-                )
-            )
-        )
-        .padding()
     }
 }
 
