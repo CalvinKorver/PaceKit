@@ -19,7 +19,7 @@ struct PacePickerSheet: View {
     private func savePaceConstraint() {
         let totalSeconds = minutes * 60 + seconds
         
-        if let workBlockIndex = viewModel.blocks.firstIndex(where: { type(of: $0) == WorkBlock.self}) {
+        if let workBlockIndex = viewModel.blocks.firstIndex(where: { $0.block.blockType == .work }) {
             
             let paceConstraint = PaceConstraint(
                 duration: totalSeconds,

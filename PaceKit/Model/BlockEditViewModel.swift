@@ -71,23 +71,6 @@ class BlockEditViewModel: ObservableObject {
         )
         
         print("Updated block distance: \(String(describing: updatedBlock.distance))")
-        
-        // If it's a WorkBlock, update duration based on pace
-        if let workBlock = updatedBlock as? WorkBlock {
-            let distanceInMiles = switch selectedDistanceUnit {
-                case .miles: distance
-                case .kilometers: distance * 0.621371
-                case .meters: distance * 0.000621371
-            }
-            
-            if let paceConstraint = workBlock.paceConstraint {
-                let totalSeconds = Int(distanceInMiles * Double(paceConstraint.duration))
-                workBlock.duration = Duration(seconds: totalSeconds)
-                durationSeconds = totalSeconds
-                print("Updated duration based on pace: \(totalSeconds)s")
-            }
-        }
-        
         blockState.block = updatedBlock
         objectWillChange.send()
     }

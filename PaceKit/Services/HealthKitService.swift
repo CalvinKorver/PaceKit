@@ -67,7 +67,7 @@ class HealthKitService {
         }
     }
     
-    private func createGoalFromBlock(_ block: Block) -> WorkoutGoal {
+    func createGoalFromBlock(_ block: Block) -> WorkoutGoal {
         if let distance = block.distance {
             let unitLength = calculateUnitLengthFromDistanceUnit(distance.unit)
             return WorkoutGoal.distance(distance.value, unitLength)
@@ -79,7 +79,19 @@ class HealthKitService {
         }
     }
     
-    private func createCustomWorkoutPlan(_ workout: Workout) throws -> WorkoutPlan {
+    func createAlert(_ block: WorkBlock) -> (any WorkoutAlert)? {
+        
+        guard let alert = block.paceConstraint else { return nil }
+        let duration = Double(alert.duration)
+        let unitSpeed: UnitSpeed = .milesPerHour
+        let lowerBound = Measurement(value: duration - 15, unit: unitSpeed)
+        let upperBound = Measurement(value: duration + 20, unit: unitSpeed)
+        let range: ClosedRange<Measurement<UnitSpeed>> = lowerBound...upperBound
+        return SpeedRangeAlert(target: range, metric: .current)
+    }
+
+    
+    func createCustomWorkoutPlan(_ workout: Workout) throws -> WorkoutPlan {
         let workBlock = workout.blocks?.first(where: { $0.blockType == .work}) as? WorkBlock
         let warmupBlock = workout.blocks?.first(where: { $0.blockType == .warmup}) as? Block
         let cooldownBlock = workout.blocks?.first(where: { $0.blockType == .cooldown}) as? Block
@@ -90,9 +102,10 @@ class HealthKitService {
         
         // Create work step
         let workGoal = createGoalFromBlock(workBlock)
+        let workAlert = createAlert(workBlock)
         let workStep = IntervalStep(.work,
             goal: workGoal,
-            alert: nil
+            alert: workAlert
         )
         
         let intervalBlock = buildWorkBlock(from: workBlock)
@@ -113,14 +126,14 @@ class HealthKitService {
         
     }
     
-    private func buildWorkoutStep(from block: Block?) -> WorkoutStep? {
+    func buildWorkoutStep(from block: Block?) -> WorkoutStep? {
         guard let block = block else { return nil }
         let goal = createGoalFromBlock(block)
         let workStep = WorkoutStep(goal: goal, alert: nil)
         return WorkoutStep(goal: goal, alert: nil)
     }
 
-    private func buildWorkBlock(from workBlock: WorkBlock) -> IntervalBlock {3
+    func buildWorkBlock(from workBlock: WorkBlock) -> IntervalBlock {
         // Create work step
         let workGoal = createGoalFromBlock(workBlock)
         let workStep = IntervalStep(.work, goal: workGoal, alert: nil)

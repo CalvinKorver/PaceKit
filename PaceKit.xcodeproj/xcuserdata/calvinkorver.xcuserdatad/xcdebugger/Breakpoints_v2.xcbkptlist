@@ -94,8 +94,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,13 +142,13 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "saveWorkout(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "FBCE2160-A102-4B2B-B010-9D3BE4A36AE7 - add3433d262af3b"
+                  uuid = "FBCE2160-A102-4B2B-B010-9D3BE4A36AE7 - add3433d262aeec"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -158,11 +158,11 @@
                   urlString = "file:///Users/calvinkorver/Code/PaceKit/PaceKit/PaceKit/Services/HealthKitService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186">
+                  startingLineNumber = "199"
+                  endingLineNumber = "199">
                </Location>
                <Location
-                  uuid = "FBCE2160-A102-4B2B-B010-9D3BE4A36AE7 - add3433d262af3b"
+                  uuid = "FBCE2160-A102-4B2B-B010-9D3BE4A36AE7 - add3433d262aeec"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -172,8 +172,8 @@
                   urlString = "file:///Users/calvinkorver/Code/PaceKit/PaceKit/PaceKit/Services/HealthKitService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "186"
-                  endingLineNumber = "186">
+                  startingLineNumber = "199"
+                  endingLineNumber = "199">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -282,8 +282,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,8 +298,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -308,22 +308,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "463EC4A0-5CAE-454D-9D22-774B15344A5A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PaceKit/Services/HealthKitService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "createCustomWorkoutPlan(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8A406402-7EC8-452A-89E5-EF99B35E65CF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -339,6 +323,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "8A406402-7EC8-452A-89E5-EF99B35E65CF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PaceKit/Services/HealthKitService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "createCustomWorkoutPlan(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "E4421FAC-EEAD-4D91-98C1-66869B08B784"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -346,8 +346,8 @@
             filePath = "PaceKit/Services/HealthKitService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -365,6 +365,38 @@
             startingLineNumber = "151"
             endingLineNumber = "151"
             landmarkName = "saveWorkout()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52AAAB04-156E-4226-AD94-0C7C36A00DB7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PaceKitTests/PaceKitTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "createGoalFromBlockWithDistanceBuildsWorkoutGoal()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BAF5EA8F-B88C-49C6-AAED-EE8339A35022"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PaceKit/Services/HealthKitService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "createCustomWorkoutPlan(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -242,11 +242,6 @@ class SimpleBlock: Block {
 // PaceConstraint class
 struct PaceConstraint: Hashable, Codable {
     var duration: Int
-    var unit: DistanceType
-    
-    enum DistanceType: String, Codable {
-        case kilometers
-        case miles
-        case meters
-    }
+    var unit: DistanceUnit
+
 }
