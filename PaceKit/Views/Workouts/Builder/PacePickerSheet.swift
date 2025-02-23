@@ -42,7 +42,7 @@ struct PacePickerSheet: View {
                     .font(.title)
                     .padding()
                 
-                BasePickerView(
+                PickerView(
                     primaryValue: .init(
                         get: { minutes },
                         set: { minutes = $0 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct BasePickerView: UIViewRepresentable {
+struct PickerView: UIViewRepresentable {
     @Binding var primaryValue: Int
     @Binding var secondaryValue: Int
     let primaryRange: [Int]
@@ -44,9 +44,9 @@ struct BasePickerView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-        var parent: BasePickerView
+        var parent: PickerView
         
-        init(_ pickerView: BasePickerView) {
+        init(_ pickerView: PickerView) {
             self.parent = pickerView
         }
         
