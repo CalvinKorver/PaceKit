@@ -1,2 +1,4 @@
 WatchWorkoutSync.xcodeproj/*
+*.xcbkptlist
 .DS_Store
+*.xcuserstate
