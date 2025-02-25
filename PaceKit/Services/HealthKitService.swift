@@ -82,12 +82,10 @@ class HealthKitService {
     func createAlert(_ block: WorkBlock) -> (any WorkoutAlert)? {
         
         guard let alert = block.paceConstraint else { return nil }
-        let duration = Double(alert.duration)
+        let duration = 3600 / Double(alert.duration)
         let unitSpeed: UnitSpeed = .milesPerHour
-        let lowerBound = Measurement(value: duration - 15, unit: unitSpeed)
-        let upperBound = Measurement(value: duration + 20, unit: unitSpeed)
-        let range: ClosedRange<Measurement<UnitSpeed>> = lowerBound...upperBound
-        return SpeedRangeAlert(target: range, metric: .current)
+        let bound = Measurement(value: duration, unit: unitSpeed)
+        return SpeedThresholdAlert(target: bound, metric: .average)
     }
 
     
@@ -99,14 +97,6 @@ class HealthKitService {
         guard let workBlock = workBlock else {
             throw WorkoutError.invalidWorkout(message: "No work block found")
         }
-        
-        // Create work step
-        let workGoal = createGoalFromBlock(workBlock)
-        let workAlert = createAlert(workBlock)
-        let workStep = IntervalStep(.work,
-            goal: workGoal,
-            alert: workAlert
-        )
         
         let intervalBlock = buildWorkBlock(from: workBlock)
         let warmupStep = buildWorkoutStep(from: warmupBlock)
@@ -129,21 +119,19 @@ class HealthKitService {
     func buildWorkoutStep(from block: Block?) -> WorkoutStep? {
         guard let block = block else { return nil }
         let goal = createGoalFromBlock(block)
-        let workStep = WorkoutStep(goal: goal, alert: nil)
         return WorkoutStep(goal: goal, alert: nil)
     }
 
     func buildWorkBlock(from workBlock: WorkBlock) -> IntervalBlock {
-        // Create work step
         let workGoal = createGoalFromBlock(workBlock)
-        let workStep = IntervalStep(.work, goal: workGoal, alert: nil)
-        
         var intervalSteps: [IntervalStep] = []
+        let alert = createAlert(workBlock)
+        let workStep = IntervalStep(.work, goal: workGoal, alert: alert)
         
         // Create recovery step if rest exists
         if let rest = workBlock.restBlock {
             let recoveryGoal = createGoalFromBlock(rest)
-            let recoveryStep = IntervalStep(.recovery, goal: recoveryGoal, alert: nil)
+            let recoveryStep = IntervalStep(.recovery, goal: recoveryGoal, alert: alert)
             
             // Add both steps to the plan
             intervalSteps = [workStep, recoveryStep]

@@ -22,9 +22,9 @@ struct WorkRestSection: View {
                     paceSeconds = 0
                     showPaceEditor = false
                 } else {
-                    if newValue && paceSeconds == 0 {
-                        showPaceEditor = true
-                    }
+                    paceSeconds = 480
+                    showPaceEditor = true
+                    
                 }
             }
         )
