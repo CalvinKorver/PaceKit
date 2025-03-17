@@ -1,9 +1,12 @@
 import SwiftUI
-import SwiftUI
 
 struct BlockView: View {
+//    @Environment(\.colorScheme) var colorScheme // Backup approach
+    @Environment(AppState.self) var appState // Make sure this is added
     let block: Block
     let workout: Workout
+    
+    
     
     var body: some View {
         VStack() {
@@ -20,11 +23,12 @@ struct BlockView: View {
             
             // Work Block Specific Content
             if block.blockType == .work, let workBlock = block as? WorkBlock {
-                WorkBlockDetails(workBlock: workBlock, workout: workout)
+                WorkBlockDetails(workBlock: workBlock, workout: workout, restBackgroundColor: appState.restBackgroundColor)
             }
         }
         .padding()
-        .background(Color.white)
+        .background(Color(.systemBackground))
+        .background(appState.colorScheme == .dark ? Color(.secondarySystemBackground) : .white)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
@@ -34,7 +38,7 @@ struct MetricsDisplay: View {
     let block: Block
     
     private var textColor: Color {
-        block.blockType == .cooldown ? .blue : .black
+        block.blockType == .cooldown ? .blue : .primary
     }
     
     var body: some View {
@@ -112,6 +116,7 @@ struct TimeMetricView: View {
 struct WorkBlockDetails: View {
     let workBlock: WorkBlock
     let workout: Workout
+    let restBackgroundColor: Color
     
     var body: some View {
         VStack(spacing: 12) {
@@ -126,7 +131,7 @@ struct WorkBlockDetails: View {
             
             // Show rest block if applicable
             if let rest = workBlock.restBlock {
-                RestBlockSummary(rest: rest)
+                RestBlockSummary(rest: rest, backgroundColor: restBackgroundColor)
             }
             
             // Show repeats if applicable
@@ -134,7 +139,9 @@ struct WorkBlockDetails: View {
                 HStack {
                     Text("Repeats: ")
                         .foregroundStyle(.secondary)
-                    Text(String(repeats)).fontWeight(.semibold)
+                    Text(String(repeats))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
                     Spacer()
                 }
             }
@@ -151,6 +158,7 @@ struct WorkBlockDetails: View {
 // Rest Block Summary Component
 struct RestBlockSummary: View {
     let rest: Block
+    let backgroundColor: Color
     
     var body: some View {
         VStack(spacing: 8) {
@@ -176,13 +184,15 @@ struct RestBlockSummary: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
-        .background(Color(.systemGray6).opacity(0.5))
+        .background(Color(.systemBackground))
         .cornerRadius(8)
     }
 }
 
 #Preview {
-    VStack(spacing: 20) {
+    let appState = AppState()
+    
+    return VStack(spacing: 20) {
         // Preview a work block with rest
         BlockView(
             block: WorkBlock(
@@ -223,5 +233,6 @@ struct RestBlockSummary: View {
         )
     }
     .padding()
-    .background(Color(.systemGray6))
+    .background(Color(.systemBackground))
+    .environment(appState)
 }

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class ModelData {
+class ModelData: ObservableObject {
     var workouts: [Workout] = load("workoutData.json") {
         didSet {
             print("ModelData workouts updated:")

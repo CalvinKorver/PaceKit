@@ -3,6 +3,7 @@ import SwiftUI
 struct CreateNewWorkoutView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.dismiss) var dismiss
+    @Environment(AppState.self) var appState
     @StateObject private var viewModel: CreateNewWorkoutViewModel
     @FocusState private var workoutNameIsFocused: Bool
 
@@ -168,7 +169,14 @@ struct BlockButton: View {
         .foregroundStyle(Color.primary)
         .frame(maxWidth: .infinity)
         .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-        .background(color.opacity(0.5))
+        .background(Color(.systemBackground))
         .cornerRadius(8)
     }
+}
+
+#Preview {
+    
+    CreateNewWorkoutView()
+        .environmentObject(ModelData())
+        .environmentObject(AppState())
 }

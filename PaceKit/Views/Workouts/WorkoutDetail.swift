@@ -3,6 +3,7 @@ import HealthKit
 
 struct WorkoutDetail: View {
     @Environment(ModelData.self) var modelData
+    @Environment(\.colorScheme) var colorScheme
     var workout: Workout
     
     @State private var showingSyncAlert = false
@@ -10,7 +11,7 @@ struct WorkoutDetail: View {
     @State private var isSyncing = false
     
     var landmarkIndex: Int {
-        modelData.workouts.firstIndex(where: { $0.id == workout.id })!
+        modelData.workouts.firstIndex(where: { $0.id == workout.id }) ?? 0
     }
     
     // Helper method to organize blocks by type
@@ -47,6 +48,7 @@ struct WorkoutDetail: View {
                     Text(workout.name)
                         .font(.largeTitle)
                         .bold()
+                        .foregroundColor(.primary)
                     Spacer()
                     Button(action: {
                         Task {
@@ -106,7 +108,7 @@ struct WorkoutDetail: View {
             .padding(.vertical)
         }
         .scrollContentBackground(.hidden)
-        .background(Color(.systemGray6))
+        .background(Color(.systemBackground))
         .alert("Sync Status", isPresented: $showingSyncAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -146,37 +148,10 @@ extension WorkoutDetail {
 
 #Preview {
     let modelData = ModelData()
-    let workout = Workout(
-        id: 1,
-        name: "Test Workout",
-        blocks: [
-            SimpleBlock(
-                id: 1,
-                blockType: .warmup,
-                distance: Distance(value: 1.0, unit: .miles)
-            ),
-            WorkBlock(
-                id: 2,
-                distance: Distance(value: 1.25, unit: .miles),
-                duration: Duration(seconds: 600),
-                paceConstraint: PaceConstraint(duration: 480, unit: .miles),
-                rest: SimpleBlock(
-                    id: 3,
-                    blockType: .rest,
-                    distance: Distance(value: 0.25, unit: .miles)
-                ),
-                repeats: 3
-            ),
-            SimpleBlock(
-                id: 4,
-                blockType: .cooldown,
-                duration: Duration(seconds: 300)
-            )
-        ],
-        isFavorite: false,
-        imageName: "runner"
-    )
+    let appState = AppState() // Create AppState instance
     
-    return WorkoutDetail(workout: workout)
+    WorkoutList()
         .environment(modelData)
+        .environment(appState)
+        
 }
