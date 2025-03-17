@@ -63,9 +63,9 @@ struct BlockEditState: Identifiable {
         self.selectedMetric = block.duration != nil ? .time : .distance
     }
 }
-
 // Custom view modifier for section cards
 struct SectionCard<Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
     let content: Content
     
     init(@ViewBuilder content: () -> Content) {
@@ -74,15 +74,18 @@ struct SectionCard<Content: View>: View {
     
     var body: some View {
         content
-            .padding(.horizontal, 16) // Fixed horizontal padding
-            .padding(.vertical, 16)   // Fixed vertical padding
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .foregroundColor(.primary)
+            .foregroundColor(colorScheme == .dark ? .white : .black)
+            .background(colorScheme == .dark ? Color(.secondarySystemBackground) : .white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
 struct NestedSectionCard<Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
     let content: Content
     
     init(@ViewBuilder content: () -> Content) {
@@ -92,7 +95,8 @@ struct NestedSectionCard<Content: View>: View {
     var body: some View {
         content
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .foregroundColor(colorScheme == .dark ? .white : .black)
+            .background(colorScheme == .dark ? Color(.secondarySystemBackground) : .white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
@@ -123,6 +127,7 @@ struct NestedSectionCard<Content: View>: View {
 
 struct TimeOrDistanceSelectorAndPicker<Content: View>: View {
     @ObservedObject var viewModel: BlockEditViewModel
+    @Environment(AppState.self) var appState
     @Binding var quantity: Double  // For distance in miles
     @Binding var seconds: Int      // For time in seconds
     @Binding var selectedMetric: MetricType
@@ -135,7 +140,13 @@ struct TimeOrDistanceSelectorAndPicker<Content: View>: View {
     }
     
     private var textColor: Color {
-        viewModel.blockState.type == SimpleBlock.self ? .blue : .black
+        if (appState.colorScheme == .dark) {
+            return .white
+        } else if ( viewModel.blockState.type == SimpleBlock.self) {
+            return .black
+        } else {
+            return .blue
+        }
     }
     
     var body: some View {

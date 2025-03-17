@@ -85,7 +85,7 @@ class HealthKitService {
         let duration = 3600 / Double(alert.duration)
         let unitSpeed: UnitSpeed = .milesPerHour
         let bound = Measurement(value: duration, unit: unitSpeed)
-        return SpeedThresholdAlert(target: bound, metric: .average)
+        return SpeedThresholdAlert(target: bound, metric: .current)
     }
 
     

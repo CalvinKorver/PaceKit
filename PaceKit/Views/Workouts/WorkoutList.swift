@@ -1,14 +1,9 @@
-/*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-A view showing a list of landmarks.
-*/
-
 import SwiftUI
 
 struct WorkoutList: View {
     @Environment(ModelData.self) var modelData
+    @Environment(AppState.self) var appState
+    @Environment(\.colorScheme) var colorScheme
     
     func workoutDetail(workout: Workout) -> some View {
         var totalDistance = 0.0
@@ -31,15 +26,16 @@ struct WorkoutList: View {
             if totalDistance > 0 {
                 Text("Total: \(totalDistance, specifier: "%.1f") \(distanceUnit)")
                     .fontWeight(.light)
+                    .foregroundColor(.primary)
             }
             if totalTime > 0 {
                 Text("Total:\(Int(totalTime)) min")
                     .fontWeight(.light)
+                    .foregroundColor(.primary)
             }
             Spacer()
         }
     }
-    
     
     var body: some View {
         NavigationStack {
@@ -53,6 +49,7 @@ struct WorkoutList: View {
                                     .font(.system(size: 17))
                                     .fontWeight(.medium)
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0))
+                                    .foregroundColor(.primary)
                                 workoutDetail(workout: workout)
                             }
                             Text("Detail").foregroundStyle(Color.secondary)
@@ -62,7 +59,7 @@ struct WorkoutList: View {
                     .listRowInsets(.init(top: 1, leading: 1, bottom: 1, trailing: 12))
                     .listRowBackground(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
+                            .fill(Color(.systemGray5))
                     )
                 }
             }
@@ -88,7 +85,6 @@ struct WorkoutList: View {
                 print("Old count: \(oldValue.count)")
                 print("New count: \(newValue.count)")
             }
-            
             .listRowSpacing(26)
             .padding()
             .listStyle(.plain)
@@ -100,15 +96,21 @@ struct WorkoutList: View {
                         Image(systemName: "plus.circle")
                             .resizable()
                             .frame(width: 30, height: 30)
+                            .foregroundColor(.primary)
                     }
                 }
             }
-            .background(Color(.systemGray6))
+            .background(Color(colorScheme == .dark ? .systemBackground : .systemGray6))
         }
     }
 }
 
 #Preview {
+    let modelData = ModelData()
+    let appState = AppState() // Create AppState instance
+    
     WorkoutList()
-        .environment(ModelData())
+        .environment(modelData)
+        .environment(appState)
+        
 }
