@@ -99,7 +99,20 @@ struct WorkoutList: View {
                             .foregroundColor(.primary)
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(systemName: "gear")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.primary)
+                    }
+                    .padding()
+                }
+                
             }
+            
+            
             .background(Color(colorScheme == .dark ? .systemBackground : .systemGray6))
         }
     }
