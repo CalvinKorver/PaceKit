@@ -76,12 +76,21 @@ class Block: Hashable, Codable, Identifiable {
         case id, blockType, distance, duration, metricType
     }
     
-    init(id: Int, blockType: BlockType, distance: Distance? = nil, duration: Duration? = nil, metricType: MetricType = .distance) {
+    init(id: Int, blockType: BlockType, distance: Distance? = nil, duration: Duration? = nil, metricType: MetricType? = nil) {
         self.id = id
         self.distance = distance
         self.duration = duration
-        self.metricType = metricType
         self.blockType = blockType
+        // Set metricType based on which value is present
+        if let metricType = metricType {
+            self.metricType = metricType
+        } else if distance != nil {
+            self.metricType = .distance
+        } else if duration != nil {
+            self.metricType = .time
+        } else {
+            self.metricType = nil
+        }
     }
     
     // Factory method for decoding
@@ -213,7 +222,7 @@ class SimpleBlock: Block {
                  blockType: BlockType,
                  distance: Distance? = nil,
                  duration: Duration? = nil,
-                 metricType: MetricType = .distance) {
+                 metricType: MetricType? = nil) {
         super.init(id: id, blockType: blockType, distance: distance, duration: duration, metricType: metricType)
     }
     

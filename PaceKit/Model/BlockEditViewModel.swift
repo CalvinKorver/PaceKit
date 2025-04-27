@@ -76,25 +76,34 @@ class BlockEditViewModel: ObservableObject {
     }
 
     func clearOtherMetric(_ newType: MetricType) {
-            print("Clearing metric for type: \(newType)")
-            var updatedState = blockState
-            var updatedBlock = blockState.block
-            
-            if newType == .distance {
-                updatedBlock.duration = nil
-                durationSeconds = 0
-                print("Cleared duration")
-            } else {
-                updatedBlock.distance = nil
-                distance = 0
-                print("Cleared distance")
-            }
-            
-            updatedState.block = updatedBlock
-            updatedState.selectedMetric = newType // Update the stored metric type
-            blockState = updatedState
-            objectWillChange.send()
+        print("Clearing metric for type: \(newType)")
+        var updatedState = blockState
+        var updatedBlock = blockState.block
+        
+        if newType == .distance {
+            updatedBlock.duration = nil
+            durationSeconds = 0
+            // Set default distance
+            distance = 1.0
+            updatedBlock.distance = Distance(value: 1.0, unit: selectedDistanceUnit)
+            print("Cleared duration, set default distance")
+        } else {
+            updatedBlock.distance = nil
+            distance = 0
+            // Set default duration (5 minutes)
+            durationSeconds = 300
+            updatedBlock.duration = Duration(seconds: 300)
+            print("Cleared distance, set default duration")
         }
+        
+        // Update the block's metricType
+        updatedBlock.metricType = newType
+        
+        updatedState.block = updatedBlock
+        updatedState.selectedMetric = newType // Update the stored metric type
+        blockState = updatedState
+        objectWillChange.send()
+    }
     
     func updateDuration() {
         print("Updating duration: \(durationSeconds)s")

@@ -106,7 +106,7 @@ class CreateNewWorkoutViewModel: ObservableObject {
         if blockType == .work {
             let newBlock = WorkBlock(
                 id: newBlockId,
-                distance: Distance(value: 1.0, unit: .miles),
+                distance: nil,
                 duration: nil,
                 paceConstraint: nil,
                 rest: nil,
@@ -120,7 +120,7 @@ class CreateNewWorkoutViewModel: ObservableObject {
             let newBlock = SimpleBlock(
                 id: newBlockId,
                 blockType: blockType,
-                distance: Distance(value: 1.0, unit: .miles),
+                distance: nil,
                 duration: nil
             )
             blockState = BlockEditState(
