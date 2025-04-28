@@ -17,8 +17,6 @@ struct CreateNewWorkoutView: View {
 
         NavigationStack {
             ZStack {
-                Color(.systemGray6)
-                    .ignoresSafeArea()
                 
                 VStack {
                     // Workout Name Field
