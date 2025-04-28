@@ -52,7 +52,7 @@ struct WorkoutList: View {
                                     .foregroundColor(.primary)
                                 workoutDetail(workout: workout)
                             }
-                            Text("Detail").foregroundStyle(Color.secondary)
+                            Text("Details").foregroundStyle(Color.secondary)
                         }
                         .padding()
                     }
