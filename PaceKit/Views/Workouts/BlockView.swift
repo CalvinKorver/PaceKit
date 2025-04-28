@@ -27,8 +27,7 @@ struct BlockView: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
-        .background(appState.colorScheme == .dark ? Color(.secondarySystemBackground) : .white)
+        .background(Color(.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
