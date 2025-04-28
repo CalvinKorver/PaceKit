@@ -17,6 +17,10 @@ struct CreateNewWorkoutView: View {
 
         NavigationStack {
             ZStack {
+                if colorScheme == .light {
+                    Color(.systemGray6)
+                        .ignoresSafeArea()
+                }
                 
                 VStack {
                     // Workout Name Field
